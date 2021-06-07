@@ -19,17 +19,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="hasPlantings"
             type="boolean" />
-
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/harvest_list"
             android:layout_width="match_parent"
@@ -65,7 +62,6 @@
                 android:textColor="?attr/colorPrimary"
                 app:backgroundTint="?attr/colorOnPrimary"
                 app:shapeAppearance="@style/ShapeAppearance.Sunflower.Button.Add" />
-
         </LinearLayout>
 
     </FrameLayout>

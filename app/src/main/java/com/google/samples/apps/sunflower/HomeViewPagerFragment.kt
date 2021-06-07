@@ -72,4 +72,29 @@ class HomeViewPagerFragment : Fragment() {
             else -> null
         }
     }
+//
+//
+//    private fun drawBadge(number: Int, gravity: Int) {
+//        val drawableResId = when (radioGroup.checkedRadioButtonId) {
+//            R.id.radioButtonSelectorDrawable -> R.drawable.selector_badge
+//            R.id.radioButtonVectorDrawable   -> R.drawable.ic_notifications
+//            else                             -> R.drawable.ic_launcher
+//        }
+//
+//        DrawableBadge.Builder(applicationContext)
+//            .drawableResId(drawableResId)
+//            .badgeColor(R.color.badgeColor)
+//            .badgeSize(R.dimen.badge_size)
+//            .badgeGravity(gravity)
+//            .textColor(R.color.textColor)
+//            .showBorder(true)
+//            .badgeBorderColor(R.color.borderColor)
+//            .badgeBorderSize(R.dimen.badge_border_size)
+//            .maximumCounter(99)
+//            .badgeMargin(10f)
+//            .showCounter(true)
+//            .build()
+//            .get(number)
+//            .let { drawable -> imageViewBadge.setImageDrawable(drawable) }
+//    }
 }
