@@ -25,11 +25,7 @@ class GardenAndHarvestViewModel(harvests: GardenAndHarvest) {
     private val garden = checkNotNull(harvests.garden)
     private val plant = checkNotNull(harvests.plant)
     private val harvest = harvests.harvestGarden[0]
-    //val harvestDateString: String = dateFormat.format(harvest.harvest_date).toString()
-    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-    val currentDate = sdf.format(Date())
-    //val harvestDateString: String = currentDate.toString()
-    val harvestDateString: String = "test datetime"
+    val harvestDateString: String = harvest.harvest_date
     val imageUrl
         get() = plant.imageUrl
     val plantName

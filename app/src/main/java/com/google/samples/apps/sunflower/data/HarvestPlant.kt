@@ -21,13 +21,16 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 
 @Entity(tableName = "harvest_plantings")
 data class HarvestPlant(
         @ColumnInfo(name = "harvest_plant_id") val harvest_plant_id: String,
         @ColumnInfo(name = "harvest_amount")val harvest_amount: Int,
-        @ColumnInfo(name = "harvest_date") val harvest_date: Calendar = Calendar.getInstance()
+        @ColumnInfo(name = "harvest_date") val harvest_date: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "gardenHarvestId")
