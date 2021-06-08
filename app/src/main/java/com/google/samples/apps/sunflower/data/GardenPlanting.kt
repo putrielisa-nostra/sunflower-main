@@ -54,7 +54,7 @@ data class GardenPlanting(
      */
     @ColumnInfo(name = "last_watering_date")
     val lastWateringDate: Calendar = Calendar.getInstance(),
-    
+
     /**
      * Indicates when the [Plant] was last fertilized.
      */

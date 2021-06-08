@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.sunflower.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -34,6 +35,11 @@ interface GardenPlantingDao {
     @Query("SELECT EXISTS(SELECT 1 FROM garden_plantings WHERE plant_id = :plantId LIMIT 1)")
     fun isPlanted(plantId: String): Flow<Boolean>
 
+    @Query("SELECT * FROM garden_plantings WHERE plant_id = :plantId")
+    fun getGardenPlant(plantId: String): Flow<GardenPlanting>
+
+    @Query("UPDATE garden_plantings SET last_plant_fertilize = :last_fertilizer WHERE plant_id = :plantId")
+    fun UpdateGardenPlant(plantId: String, last_fertilizer: String)
     /**
      * This query will tell Room to query both the [Plant] and [GardenPlanting] tables and handle
      * the object mapping.

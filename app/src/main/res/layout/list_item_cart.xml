@@ -9,7 +9,7 @@
             type="android.view.View.OnClickListener"/>
         <variable
             name="viewModel"
-            type="com.google.samples.apps.sunflower.viewmodels.CartAndHarvestViewModel"/>
+            type="com.google.samples.apps.sunflower.ui.viewmodels.CartAndHarvestViewModel"/>
     </data>
 
     <com.google.samples.apps.sunflower.views.MaskedCardView

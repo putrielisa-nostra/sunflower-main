@@ -24,6 +24,13 @@ interface HarvestPlantingDao {
             "LEFT JOIN plants C ON A.harvest_plant_id = C.id")
     fun getGardenHarvest(): Flow<List<GardenAndHarvest>>
 
+    @Transaction
+    @Query("SELECT * FROM harvest_plantings A " +
+            "LEFT JOIN garden_plantings B ON A.harvest_plant_id = B.plant_id " +
+            "LEFT JOIN plants C ON A.harvest_plant_id = C.id " +
+            "WHERE A.harvest_plant_id = :plantId")
+    fun getHarvestByPlant(plantId: String): Flow<HarvestPlant>
+
     @Insert
     suspend fun insertHarvestPlant(gardenPlanting: HarvestPlant): Long
 

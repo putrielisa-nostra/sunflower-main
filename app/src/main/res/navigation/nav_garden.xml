@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/view_pager_fragment"
-        android:name="com.google.samples.apps.sunflower.HomeViewPagerFragment"
+        android:name="com.google.samples.apps.sunflower.ui.fragment.HomeViewPagerFragment"
         tools:layout="@layout/fragment_view_pager">
 
         <action
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/plant_detail_fragment"
-        android:name="com.google.samples.apps.sunflower.PlantDetailFragment"
+        android:name="com.google.samples.apps.sunflower.ui.fragment.PlantDetailFragment"
         android:label="@string/plant_details_title"
         tools:layout="@layout/fragment_plant_detail">
 
@@ -53,7 +53,7 @@
 
     <fragment
         android:id="@+id/gallery_fragment"
-        android:name="com.google.samples.apps.sunflower.GalleryFragment"
+        android:name="com.google.samples.apps.sunflower.ui.fragment.GalleryFragment"
         android:label="@string/plant_details_title"
         tools:layout="@layout/fragment_gallery">
         <argument

@@ -33,9 +33,9 @@ class HarvestPlantRepository @Inject constructor(
     suspend fun removeHarvestPlanting(harvestPlanting: HarvestPlant) {
         harvestPlantingDao.deleteHarvestPlant(harvestPlanting)
     }
-
     fun isHarvest(plantId: String) =
         harvestPlantingDao.isHarvest(plantId)
+
 
     fun getGardenHarvests() = harvestPlantingDao.getGardenHarvest()
 }

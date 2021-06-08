@@ -17,22 +17,28 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <import type="com.google.samples.apps.sunflower.data.Plant" />
+
         <variable
             name="viewModel"
-            type="com.google.samples.apps.sunflower.viewmodels.PlantDetailViewModel" />
+            type="com.google.samples.apps.sunflower.ui.viewmodels.PlantDetailViewModel" />
+
         <variable
             name="callback"
-            type="com.google.samples.apps.sunflower.PlantDetailFragment.Callback" />
+            type="com.google.samples.apps.sunflower.ui.fragment.PlantDetailFragment.Callback" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorSurface"
         android:fitsSystemWindows="true"
-        tools:context="com.google.samples.apps.sunflower.GardenActivity"
+        tools:context="com.google.samples.apps.sunflower.ui.activity.GardenActivity"
         tools:ignore="MergeRootFrame">
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -42,6 +48,7 @@
             android:fitsSystemWindows="true"
             android:stateListAnimator="@animator/show_toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
@@ -55,6 +62,7 @@
                 app:title="@{viewModel.plant.name}"
                 app:titleEnabled="false"
                 app:toolbarId="@id/toolbar">
+
                 <ImageView
                     android:id="@+id/detail_image"
                     android:layout_width="match_parent"
@@ -152,6 +160,53 @@
                     app:layout_constraintTop_toBottomOf="@id/plant_detail_name" />
 
                 <TextView
+                    android:id="@+id/plant_date_fert_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:gravity="center_horizontal"
+                    android:text="Last Fertilized"
+                    android:textColor="?attr/colorAccent"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/plant_watering" />
+
+                <LinearLayout
+                    app:flow_verticalAlign="center"
+                    android:id="@+id/lay_last_fert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:isGone="@{!viewModel.isPlanted()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/plant_date_fert_header">
+
+                    <TextView
+                        android:id="@+id/plant_date_fert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small"
+                        android:gravity="center_horizontal"
+                        android:text="@{viewModel.garden.lastPlantFertilize}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/plant_date_fert_header" />
+
+                    <ImageButton
+                        android:id="@+id/btn_fert"
+                        android:clickable="true"
+                        android:background="@color/transparent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_add_new"/>
+                </LinearLayout>
+
+                <TextView
                     android:id="@+id/plant_description"
                     style="?android:attr/textAppearanceMedium"
                     android:layout_width="0dp"
@@ -164,7 +219,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/plant_watering"
+                    app:layout_constraintTop_toBottomOf="@id/lay_last_fert"
                     app:renderHtml="@{viewModel.plant.description}"
                     tools:text="Details about the plant" />
 
@@ -175,25 +230,27 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="30dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="100dp"
             android:background="@drawable/shadowbg"
+            android:elevation="30dp"
             android:padding="4dp"
             app:isGone="@{!viewModel.isPlanted()}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_gravity="bottom">
+            app:layout_constraintRight_toRightOf="parent">
+
             <EditText
                 android:id="@+id/edittotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="number"
                 android:layout_marginHorizontal="10dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 android:ems="10"
+                android:inputType="number"
                 android:maxEms="10"
                 android:text="0"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ImageButton
@@ -201,9 +258,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_remove"
                 android:clickable="true"
-                android:onClick="click"
+                android:onClick="@{() -> callback.add(viewModel.plant)}"
+                android:src="@drawable/ic_remove"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="@id/btn_plus"
@@ -215,8 +272,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_add"
                 android:clickable="true"
+                android:src="@drawable/ic_add"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -228,15 +285,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:shadowColor="@color/sunflower_gray_50_a600"
+                android:background="@drawable/buttonbg"
                 android:clickable="true"
                 android:text="@string/add_harvest"
-                android:textColor="@android:color/black"
-                android:background="@color/sunflower_green_700"
+                android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btn_plus"
-                app:layout_constraintTop_toTopOf="parent"  />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

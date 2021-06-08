@@ -24,7 +24,7 @@
             type="android.view.View.OnClickListener"/>
         <variable
             name="viewModel"
-            type="com.google.samples.apps.sunflower.viewmodels.GardenAndHarvestViewModel"/>
+            type="com.google.samples.apps.sunflower.ui.viewmodels.GardenAndHarvestViewModel"/>
     </data>
 
     <com.google.samples.apps.sunflower.views.MaskedCardView
@@ -110,7 +110,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:text="@{viewModel.harvestDateString}"
+                android:text="@{viewModel.harvest.harvest_date}"
                 android:gravity="center_horizontal"
                 android:textAppearance="?attr/textAppearanceSubtitle2"
                 app:layout_constraintEnd_toEndOf="parent"
