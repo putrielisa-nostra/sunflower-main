@@ -30,15 +30,18 @@ import com.google.samples.apps.sunflower.workers.SeedDatabaseWorker
 /**
  * The Room database for this app
  */
-@Database(entities = [GardenPlanting::class, Plant::class, HarvestPlant::class], version = 1, exportSchema = false)
+@Database(version = 2,
+        entities = [GardenPlanting::class, Plant::class, HarvestPlant::class, Cart::class], 
+        exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun gardenPlantingDao(): GardenPlantingDao
     abstract fun plantDao(): PlantDao
     abstract fun harvestDao(): HarvestPlantingDao
+    abstract fun cartDao(): CartDao
 
     companion object {
-
         // For Singleton instantiation
         @Volatile private var instance: AppDatabase? = null
 
@@ -65,3 +68,4 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 }
+

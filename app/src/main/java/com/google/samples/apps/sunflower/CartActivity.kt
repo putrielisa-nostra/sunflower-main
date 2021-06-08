@@ -16,10 +16,22 @@
 
 package com.google.samples.apps.sunflower
 
+import android.R
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.google.samples.apps.sunflower.databinding.ActivityCartBinding
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
-class CartActivity:AppCompatActivity() {
 
+@AndroidEntryPoint
+class CartActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        DataBindingUtil.setContentView<ActivityCartBinding>(this, com.google.samples.apps.sunflower.R.layout.activity_cart)
+    }
 }

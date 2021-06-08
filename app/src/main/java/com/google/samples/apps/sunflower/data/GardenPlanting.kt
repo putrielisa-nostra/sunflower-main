@@ -21,7 +21,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * [GardenPlanting] represents when a user adds a [Plant] to their garden, with useful metadata.
@@ -52,7 +53,13 @@ data class GardenPlanting(
      * time to water the plant.
      */
     @ColumnInfo(name = "last_watering_date")
-    val lastWateringDate: Calendar = Calendar.getInstance()
+    val lastWateringDate: Calendar = Calendar.getInstance(),
+    
+    /**
+     * Indicates when the [Plant] was last fertilized.
+     */
+    @ColumnInfo(name = "last_plant_fertilize")
+    val lastPlantFertilize: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "gardenPlantingId")

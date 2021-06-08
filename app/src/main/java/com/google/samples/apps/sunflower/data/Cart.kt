@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +22,14 @@ import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Entity(tableName = "harvest_plantings")
-data class HarvestPlant(
-        @ColumnInfo(name = "harvest_plant_id") val harvest_plant_id: String,
-        @ColumnInfo(name = "harvest_amount")val harvest_amount: Int,
-        @ColumnInfo(name = "harvest_date") val harvest_date: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+@Entity(tableName = "cart_plants")
+data class Cart(
+        @ColumnInfo(name = "cart_plant_id") val cart_plant_id: String,
+        @ColumnInfo(name = "item_total")val item_total: Int,
+        @ColumnInfo(name = "item_price")val item_price: Float,
+        @ColumnInfo(name = "cart_date") val cart_date: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
 ) {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "gardenHarvestId")
-    var gardenHarvestId: Long = 0
+    @ColumnInfo(name = "cart_id")
+    var cartID: Long = 0
 }

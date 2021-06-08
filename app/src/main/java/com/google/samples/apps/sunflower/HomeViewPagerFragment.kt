@@ -16,12 +16,14 @@
 
 package com.google.samples.apps.sunflower
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.samples.apps.sunflower.adapters.GARDEN_HARVEST_PAGE_INDEX
 import com.google.samples.apps.sunflower.adapters.MY_GARDEN_PAGE_INDEX
@@ -52,6 +54,9 @@ class HomeViewPagerFragment : Fragment() {
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
+        binding.imageViewBadge.setOnClickListener {
+            navigateToCartActivity()
+        }
         return binding.root
     }
 
@@ -63,6 +68,10 @@ class HomeViewPagerFragment : Fragment() {
             else -> throw IndexOutOfBoundsException()
         }
     }
+    private fun navigateToCartActivity() {
+        val intent = Intent (this@HomeViewPagerFragment.context, CartActivity::class.java)
+        startActivity(intent)
+    }
 
     private fun getTabTitle(position: Int): String? {
         return when (position) {
@@ -72,29 +81,5 @@ class HomeViewPagerFragment : Fragment() {
             else -> null
         }
     }
-//
-//
-//    private fun drawBadge(number: Int, gravity: Int) {
-//        val drawableResId = when (radioGroup.checkedRadioButtonId) {
-//            R.id.radioButtonSelectorDrawable -> R.drawable.selector_badge
-//            R.id.radioButtonVectorDrawable   -> R.drawable.ic_notifications
-//            else                             -> R.drawable.ic_launcher
-//        }
-//
-//        DrawableBadge.Builder(applicationContext)
-//            .drawableResId(drawableResId)
-//            .badgeColor(R.color.badgeColor)
-//            .badgeSize(R.dimen.badge_size)
-//            .badgeGravity(gravity)
-//            .textColor(R.color.textColor)
-//            .showBorder(true)
-//            .badgeBorderColor(R.color.borderColor)
-//            .badgeBorderSize(R.dimen.badge_border_size)
-//            .maximumCounter(99)
-//            .badgeMargin(10f)
-//            .showCounter(true)
-//            .build()
-//            .get(number)
-//            .let { drawable -> imageViewBadge.setImageDrawable(drawable) }
-//    }
+
 }

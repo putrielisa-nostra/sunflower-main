@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,23 @@
 
 package com.google.samples.apps.sunflower.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
-@Entity(tableName = "harvest_plantings")
-data class HarvestPlant(
-        @ColumnInfo(name = "harvest_plant_id") val harvest_plant_id: String,
-        @ColumnInfo(name = "harvest_amount")val harvest_amount: Int,
-        @ColumnInfo(name = "harvest_date") val harvest_date: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+@Singleton
+class CartRepository @Inject constructor(
+    private val cartDao: CartDao
 ) {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "gardenHarvestId")
-    var gardenHarvestId: Long = 0
+
+    suspend fun createCart(plantId: String, total: Int, price: Float) {
+        val myCart = Cart(plantId, total, price)
+        cartDao.insertItemCart(myCart)
+    }
+
+    suspend fun removeHarvestPlanting(myCart: Cart) {
+        cartDao.removeItemCart(myCart)
+    }
+
+    fun getlistCart() = cartDao.getharvestCart()
 }
