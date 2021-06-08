@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "710445329381",
+    "project_id": "sunflower-55177",
+    "storage_bucket": "sunflower-55177.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710445329381:android:8989bf54224d6c6d8a1d0c",
+        "android_client_info": {
+          "package_name": "com.google.samples.apps.sunflower"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710445329381-n157he5jfa4fu6l1o2pakouklp533tke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo8RRUllQTF_JuA_govHVRoTpEHW6rTRU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710445329381-n157he5jfa4fu6l1o2pakouklp533tke.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
