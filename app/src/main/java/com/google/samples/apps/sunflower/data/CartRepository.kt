@@ -35,4 +35,8 @@ class CartRepository @Inject constructor(
     }
 
     fun getlistCart() = cartDao.getharvestCart()
+
+    fun getCartByPlant(plantId: String) {
+        cartDao.getCartByPlant(plantId)
+    }
 }

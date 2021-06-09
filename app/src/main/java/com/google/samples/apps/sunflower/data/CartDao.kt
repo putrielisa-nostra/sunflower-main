@@ -13,6 +13,11 @@ interface CartDao {
     @Query("SELECT * FROM cart_plants")
     fun getAllCart(): Flow<List<Cart>>
 
+    @Query("SELECT * FROM cart_plants A " +
+            "LEFT JOIN harvest_plantings B ON A.cart_plant_id = B.harvest_plant_id " +
+            "where cart_plant_id=:plantId LIMIT 1")
+    fun getCartByPlant(plantId:String): Flow<Cart>
+
     @Transaction
     @Query("SELECT * FROM cart_plants A " +
             "LEFT JOIN harvest_plantings B ON A.cart_plant_id = B.harvest_plant_id " +

@@ -20,15 +20,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.samples.apps.sunflower.R
-import com.google.samples.apps.sunflower.data.CartAndHarvest
+import com.google.samples.apps.sunflower.data.*
 import com.google.samples.apps.sunflower.databinding.ListItemCartBinding
 import com.google.samples.apps.sunflower.ui.fragment.HomeViewPagerFragmentDirections
 import com.google.samples.apps.sunflower.ui.viewmodels.CartAndHarvestViewModel
+import com.google.samples.apps.sunflower.ui.viewmodels.CartViewModel
 
 class CartAdapter :
         ListAdapter<CartAndHarvest, CartAdapter.ViewHolder>(
@@ -66,10 +68,9 @@ class CartAdapter :
                     .actionViewPagerFragmentToPlantDetailFragment(plantId)
             view.findNavController().navigate(direction)
         }
-
-        fun bind(harvests: CartAndHarvest) {
+        fun bind(cart:CartAndHarvest) {
             with(binding) {
-                viewModel = CartAndHarvestViewModel(harvests)
+                viewModel = CartAndHarvestViewModel(cart)
                 executePendingBindings()
             }
         }
@@ -82,13 +83,13 @@ private class CartDiffCallback : DiffUtil.ItemCallback<CartAndHarvest>() {
             oldItem: CartAndHarvest,
             newItem: CartAndHarvest
     ): Boolean {
-        return oldItem.harvest.harvest_plant_id == newItem.harvest.harvest_plant_id
+        return oldItem.plant.plantId == newItem.plant.plantId
     }
 
     override fun areContentsTheSame(
             oldItem: CartAndHarvest,
             newItem: CartAndHarvest
     ): Boolean {
-        return oldItem.harvest.harvest_plant_id == newItem.harvest.harvest_plant_id
+        return oldItem.plant.plantId == newItem.plant.plantId
     }
 }

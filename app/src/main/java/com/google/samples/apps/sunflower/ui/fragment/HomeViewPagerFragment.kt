@@ -18,6 +18,7 @@ package com.google.samples.apps.sunflower.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,8 +71,12 @@ class HomeViewPagerFragment : Fragment() {
         }
     }
     private fun navigateToCartActivity() {
-        val intent = Intent (this@HomeViewPagerFragment.context, CartActivity::class.java)
-        startActivity(intent)
+        try {
+            val intent = Intent (this@HomeViewPagerFragment.context, CartActivity::class.java)
+            startActivity(intent)
+        }catch (ex:ExceptionInInitializerError){
+            Log.d("TAG", "messagenya:" + ex.toString())
+        }
     }
 
     private fun getTabTitle(position: Int): String? {

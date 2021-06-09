@@ -47,7 +47,7 @@ class CartFragment : Fragment(){
     }
 
     private fun subscribeUi(adapter: CartAdapter, binding: FragmentCartBinding) {
-        viewModel.carts.observe(viewLifecycleOwner) { result ->
+        viewModel.dataCarts.observe(viewLifecycleOwner) { result ->
             binding.hasPlantings = !result.isNullOrEmpty()
             adapter.submitList(result)
         }

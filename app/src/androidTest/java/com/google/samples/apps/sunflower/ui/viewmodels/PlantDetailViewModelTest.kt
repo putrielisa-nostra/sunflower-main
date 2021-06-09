@@ -23,6 +23,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.samples.apps.sunflower.MainCoroutineRule
 import com.google.samples.apps.sunflower.data.AppDatabase
 import com.google.samples.apps.sunflower.data.GardenPlantingRepository
+import com.google.samples.apps.sunflower.data.HarvestPlantRepository
 import com.google.samples.apps.sunflower.data.PlantRepository
 import com.google.samples.apps.sunflower.runBlockingTest
 import com.google.samples.apps.sunflower.utilities.getValue
@@ -59,6 +60,9 @@ class PlantDetailViewModelTest {
     @Inject
     lateinit var gardenPlantRepository: GardenPlantingRepository
 
+    @Inject
+    lateinit var harvestRepository: HarvestPlantRepository
+
     @Before
     fun setUp() {
         hiltRule.inject()
@@ -69,7 +73,7 @@ class PlantDetailViewModelTest {
         val savedStateHandle: SavedStateHandle = SavedStateHandle().apply {
             set("plantId", testPlant.plantId)
         }
-        viewModel = PlantDetailViewModel(savedStateHandle, plantRepository, gardenPlantRepository)
+        viewModel = PlantDetailViewModel(savedStateHandle, plantRepository, gardenPlantRepository, harvestRepository)
     }
 
     @After
