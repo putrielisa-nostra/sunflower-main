@@ -18,9 +18,8 @@ package com.google.samples.apps.sunflower.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.google.samples.apps.sunflower.data.GardenAndHarvest
-import com.google.samples.apps.sunflower.data.HarvestPlantRepository
+import com.example.core.database.entity.GardenAndHarvest
+import com.example.core.database.repository.HarvestPlantRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

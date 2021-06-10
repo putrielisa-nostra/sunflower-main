@@ -20,11 +20,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.core.database.AppDatabase
+import com.example.core.database.dao.GardenPlantingDao
+import com.example.core.database.entity.GardenPlanting
 import com.google.samples.apps.sunflower.utilities.testCalendar
 import com.google.samples.apps.sunflower.utilities.testGardenPlanting
 import com.google.samples.apps.sunflower.utilities.testPlant
 import com.google.samples.apps.sunflower.utilities.testPlants
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.equalTo
 import org.junit.After

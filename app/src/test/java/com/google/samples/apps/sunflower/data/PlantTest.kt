@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.sunflower.data
 
+import com.example.core.database.entity.Plant
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

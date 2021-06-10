@@ -17,6 +17,9 @@
 package com.google.samples.apps.sunflower.ui.viewmodels
 
 import androidx.lifecycle.*
+import com.example.core.database.repository.GardenPlantingRepository
+import com.example.core.database.repository.HarvestPlantRepository
+import com.example.core.database.repository.PlantRepository
 import com.google.samples.apps.sunflower.BuildConfig
 import com.google.samples.apps.sunflower.ui.fragment.PlantDetailFragment
 import com.google.samples.apps.sunflower.data.*
@@ -40,6 +43,9 @@ class PlantDetailViewModel @Inject constructor(
     val isPlanted = gardenPlantingRepository.isPlanted(plantId).asLiveData()
     val plant = plantRepository.getPlant(plantId).asLiveData()
     val garden = gardenPlantingRepository.getGardenPlant(plantId).asLiveData()
+    var harvestList = harvestPlantRepository.getHarvestByPlant(plantId).asLiveData()
+    //val totalNow = harvestList.value?.harvest_amount?.toInt()
+
 
     fun addPlantToGarden() {
         viewModelScope.launch {
@@ -49,7 +55,14 @@ class PlantDetailViewModel @Inject constructor(
 
     fun addPlantToHarvest(total:Int){
         viewModelScope.launch {
-            harvestPlantRepository.createHarvestPlanting(plantId, total)
+            //var count:Int=0
+            //if (totalNow != null) {
+                //if(totalNow>0){
+                //    count = (totalNow?.plus(total) ?: harvestPlantRepository.updateHarvestPlanting(plantId, count)) as Int
+                //}else{
+                    harvestPlantRepository.createHarvestPlanting(plantId, total)
+                //}
+            //}
         }
     }
 

@@ -17,6 +17,7 @@
 package com.google.samples.apps.sunflower.ui.fragment
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +25,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.samples.apps.sunflower.R
 import com.google.samples.apps.sunflower.ui.adapters.GARDEN_HARVEST_PAGE_INDEX
@@ -72,8 +75,10 @@ class HomeViewPagerFragment : Fragment() {
     }
     private fun navigateToCartActivity() {
         try {
-            val intent = Intent (this@HomeViewPagerFragment.context, CartActivity::class.java)
-            startActivity(intent)
+            //val uri = Uri.parse("myApp://feature2detail")
+            //findNavController().navigate(uri)
+            //val intent = Intent (this@HomeViewPagerFragment.context, CartActivity::class.java)
+            //startActivity(intent)
         }catch (ex:ExceptionInInitializerError){
             Log.d("TAG", "messagenya:" + ex.toString())
         }

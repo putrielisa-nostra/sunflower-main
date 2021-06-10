@@ -16,13 +16,7 @@
 
 package com.google.samples.apps.sunflower.ui.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.asLiveData
-import com.google.samples.apps.sunflower.data.Cart
-import com.google.samples.apps.sunflower.data.CartAndHarvest
-import com.google.samples.apps.sunflower.data.GardenAndHarvest
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.core.database.entity.CartAndHarvest
 
 class CartAndHarvestViewModel(carts: CartAndHarvest) {
 
@@ -30,14 +24,11 @@ class CartAndHarvestViewModel(carts: CartAndHarvest) {
     private val plant = checkNotNull(carts.plant)
     val plantId
         get() = plant.plantId
-    var cart: Cart = cartList.filter { s -> s.cart_plant_id == plantId }.single()
-    val itemTotal : String = cart.item_total.toString()
+    //var cart: Cart = cartList.filter { s -> s.cart_plant_id == plantId }.single()
+    val itemTotal : String = cartList[0].item_total.toString() //= cart.item_total.toString()
     val imageUrl
         get() = plant.imageUrl
     val plantName
         get() = plant.name
 
-    companion object {
-        private val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.US)
-    }
 }
