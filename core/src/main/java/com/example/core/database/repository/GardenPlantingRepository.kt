@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.example.core.database.repository
 
+import androidx.lifecycle.asLiveData
 import com.example.core.database.dao.GardenPlantingDao
 import com.example.core.database.entity.GardenPlanting
 import javax.inject.Inject

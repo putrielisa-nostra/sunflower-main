@@ -16,6 +16,7 @@
 
 package com.example.core.database.repository
 
+import androidx.lifecycle.asLiveData
 import com.example.core.database.dao.HarvestPlantingDao
 import com.example.core.database.entity.HarvestPlant
 import javax.inject.Inject
