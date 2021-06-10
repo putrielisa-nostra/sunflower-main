@@ -18,16 +18,15 @@ package com.google.samples.apps.sunflower.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.google.samples.apps.sunflower.data.CartAndHarvest
-import com.google.samples.apps.sunflower.data.CartRepository
+import com.example.core.database.entity.CartAndHarvest
+import com.example.core.database.repository.CartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject internal constructor(
-        cartRepository: CartRepository
+cartRepository: CartRepository
 ) : ViewModel() {
-    val carts: LiveData<List<CartAndHarvest>> =
+    val dataCarts: LiveData<List<CartAndHarvest>> =
             cartRepository.getlistCart().asLiveData()
 }

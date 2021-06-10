@@ -16,25 +16,19 @@
 
 package com.google.samples.apps.sunflower.ui.viewmodels
 
-import com.google.samples.apps.sunflower.data.GardenAndHarvest
-import java.text.SimpleDateFormat
-import java.util.*
+import com.example.core.database.entity.GardenAndHarvest
 
 class GardenAndHarvestViewModel(harvests: GardenAndHarvest) {
 
     private val garden = checkNotNull(harvests.garden)
     private val plant = checkNotNull(harvests.plant)
-    val harvest = harvests.harvestPlantings[0]
-    val harvestDateString: String = harvest.harvest_date
+    val plantId
+        get() = garden.plantId
+    var harvest = harvests.harvestPlantings[0]
     val imageUrl
         get() = plant.imageUrl
     val plantName
         get() = plant.name
     val amountHarvest: String = harvest.harvest_amount.toString()
-    val plantId
-        get() = garden.plantId
 
-    companion object {
-        private val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.US)
-    }
 }

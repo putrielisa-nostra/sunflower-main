@@ -37,7 +37,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity><activity
+        android:name=".ui.activity.CartActivity"
+        android:theme="@style/Theme.Sunflower.NoActionBar">
+    </activity>
     </application>
 
 </manifest>

@@ -31,16 +31,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.samples.apps.sunflower.R
-import com.google.samples.apps.sunflower.data.HarvestPlant
-import com.google.samples.apps.sunflower.data.Plant
-import com.google.samples.apps.sunflower.databinding.FragmentHarvestBinding
+import com.example.core.database.entity.HarvestPlant
+import com.example.core.database.entity.Plant
 import com.google.samples.apps.sunflower.databinding.FragmentPlantDetailBinding
-import com.google.samples.apps.sunflower.ui.adapters.GARDEN_HARVEST_PAGE_INDEX
 import com.google.samples.apps.sunflower.ui.fragment.PlantDetailFragment.Callback
 import com.google.samples.apps.sunflower.ui.viewmodels.PlantDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -78,12 +74,12 @@ class PlantDetailFragment : Fragment() {
             }
             btnHarvest.setOnClickListener { view ->
                 fun crtUser(view: View) {
-                    plantDetailViewModel.addPlantToHarvest((edittotal.text.toString()).toInt()
-                    ).apply {
-                        edittotal.setText("0")
-                        Snackbar.make(root, R.string.added_plant_to_harvest, Snackbar.LENGTH_LONG)
-                                .show()
-                    }
+                        plantDetailViewModel.addPlantToHarvest((edittotal.text.toString()).toInt()
+                        ).apply {
+                            edittotal.setText("0")
+                            Snackbar.make(root, R.string.added_plant_to_harvest, Snackbar.LENGTH_LONG)
+                                    .show()
+                        }
                 }
                 crtUser(view)
                 view.findNavController().navigateUp()

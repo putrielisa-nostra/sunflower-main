@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.samples.apps.sunflower.R
-import com.google.samples.apps.sunflower.data.GardenAndHarvest
+import com.example.core.database.entity.GardenAndHarvest
 import com.google.samples.apps.sunflower.databinding.ListItemHarvestPlantingBinding
 import com.google.samples.apps.sunflower.ui.fragment.HomeViewPagerFragmentDirections
 import com.google.samples.apps.sunflower.ui.viewmodels.GardenAndHarvestViewModel

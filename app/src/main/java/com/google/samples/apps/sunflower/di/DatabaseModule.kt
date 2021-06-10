@@ -17,7 +17,10 @@
 package com.google.samples.apps.sunflower.di
 
 import android.content.Context
-import com.google.samples.apps.sunflower.data.*
+import com.example.core.database.AppDatabase
+import com.example.core.database.dao.CartDao
+import com.example.core.database.dao.GardenPlantingDao
+import com.example.core.database.dao.PlantDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,7 +48,7 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideHarvestPlantingDao(appDatabase: AppDatabase): HarvestPlantingDao {
+    fun provideHarvestPlantingDao(appDatabase: AppDatabase): com.example.core.database.dao.HarvestPlantingDao {
         return appDatabase.harvestDao()
     }
 

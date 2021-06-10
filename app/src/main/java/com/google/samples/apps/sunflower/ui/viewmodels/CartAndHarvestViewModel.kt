@@ -16,20 +16,19 @@
 
 package com.google.samples.apps.sunflower.ui.viewmodels
 
-import com.google.samples.apps.sunflower.data.CartAndHarvest
+import com.example.core.database.entity.CartAndHarvest
 
-class CartAndHarvestViewModel(cart: CartAndHarvest) {
+class CartAndHarvestViewModel(carts: CartAndHarvest) {
 
-    private val harvest = checkNotNull(cart.harvest)
-    private val plant = checkNotNull(cart.plant)
-    private val cart_ = cart.cartHarvest[0]
-    val cartDate: String = cart_.cart_date.toString()
+    private val cartList = checkNotNull(carts.cartHarvest)
+    private val plant = checkNotNull(carts.plant)
+    val plantId
+        get() = plant.plantId
+    //var cart: Cart = cartList.filter { s -> s.cart_plant_id == plantId }.single()
+    val itemTotal : String = cartList[0].item_total.toString() //= cart.item_total.toString()
     val imageUrl
         get() = plant.imageUrl
     val plantName
         get() = plant.name
-    val totalItem: String = cart_.item_total.toString()
-    val plantId
-        get() = harvest.harvest_plant_id
 
 }
