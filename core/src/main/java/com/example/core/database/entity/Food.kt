@@ -16,22 +16,21 @@
 
 package com.example.core.database.entity
 
-import androidx.room.Embedded
-import androidx.room.Relation
-import com.example.core.database.entity.Cart
-import com.example.core.database.entity.HarvestPlant
-import com.example.core.database.entity.Plant
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+import kotlinx.android.parcel.Parcelize
 
-data class CartAndHarvest(
-        @Embedded
-        val plant: Plant,
-
-        @Relation(parentColumn = "id", entityColumn = "harvest_plant_id")
-        val harvestPlantings: List<HarvestPlant> = emptyList(),
-
-        @Embedded
-        val harvest: HarvestPlant,
-
-        @Relation(parentColumn = "harvest_plant_id", entityColumn = "cart_plant_id")
-        val cartHarvest: List<Cart> = emptyList()
-)
+@Entity(tableName = "meals")
+@Parcelize
+@JsonClass(generateAdapter = true)
+data class Food(
+    var page: Int = 0,
+    @field:Json(name = "idMeal") @PrimaryKey val idMeal: String,
+    @field:Json(name = "strMeal") val strMeal: String,
+    @field:Json(name = "strCategory") val strCategory: String,
+    @field:Json(name = "strMealThumb") val strMealThumb: String
+) : Parcelable {
+}

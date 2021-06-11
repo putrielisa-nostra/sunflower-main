@@ -14,52 +14,40 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.sunflower.ui.activity
+package com.example.feature.ui.activity
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.google.samples.apps.sunflower.R
-import com.google.samples.apps.sunflower.databinding.ActivityCartBinding
-import com.google.samples.apps.sunflower.databinding.ActivityGardenBinding
-import com.google.samples.apps.sunflower.databinding.FragmentCartBinding
-import com.google.samples.apps.sunflower.databinding.FragmentHarvestBinding
-import com.google.samples.apps.sunflower.ui.adapters.CartAdapter
-import com.google.samples.apps.sunflower.ui.adapters.HarvestAdapter
-import com.google.samples.apps.sunflower.ui.viewmodels.CartViewModel
-import com.google.samples.apps.sunflower.ui.viewmodels.GardenHarvestViewModel
+import com.example.feature.R
+import com.example.feature.databinding.ActivityCartBinding
+import com.example.feature.ui.adapter.CartAdapter
+import com.example.feature.ui.viewmodel.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class CartActivity : AppCompatActivity() {
-    //private val cartVM by viewModel<CartViewModel>()
     private val cartVM: CartViewModel by viewModels()
 
     private val binding : ActivityCartBinding by lazy {
         DataBindingUtil.setContentView<ActivityCartBinding>(this, R.layout.activity_cart).apply {
             lifecycleOwner = this@CartActivity
-            viewModel = cartVM
+            vm = cartVM
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val cartAdapter = CartAdapter()
-
         binding.adapter = cartAdapter
 
         // Observe data from viewModel
-        cartVM.dataCarts.observe(this, Observer {
+        cartVM.itemList.observe(this, Observer {
             Log.e("Cart-Activity", it.toString())
-            it.let(cartAdapter::submitList)
+            //it.let(cartAdapter::submitList)
         })
     }
 }

@@ -14,17 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.core.database.entity
+package com.example.core.network
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.text.SimpleDateFormat
-import java.util.*
-
-@Entity(tableName = "item_cart")
-data class Cart(
-    @ColumnInfo(name = "item_id") @PrimaryKey val item_id: String,
-    @ColumnInfo(name = "item_total")val item_total: Int
-) {
-}
+data class PokemonErrorResponse(
+  val code: Int,
+  val message: String?
+)

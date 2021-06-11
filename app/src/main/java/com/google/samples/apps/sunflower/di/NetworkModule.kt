@@ -16,11 +16,18 @@
 
 package com.google.samples.apps.sunflower.di
 
+import com.example.core.network.FoodClient
+import com.example.core.network.FoodService
+import com.example.core.network.HttpRequestInterceptor
 import com.google.samples.apps.sunflower.api.UnsplashService
+import com.skydoves.sandwich.coroutines.CoroutinesResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -31,5 +38,35 @@ class NetworkModule {
     @Provides
     fun provideUnsplashService(): UnsplashService {
         return UnsplashService.create()
+    }
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpRequestInterceptor())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl("https://www.themealdb.com/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .addCallAdapterFactory(CoroutinesResponseCallAdapterFactory())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFoodService(retrofit: Retrofit): FoodService {
+        return retrofit.create(FoodService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFoodClient(pokedexService: FoodService): FoodClient {
+        return FoodClient(pokedexService)
     }
 }

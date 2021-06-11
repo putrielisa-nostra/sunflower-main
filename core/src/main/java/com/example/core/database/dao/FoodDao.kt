@@ -14,32 +14,23 @@
  * limitations under the License.
  */
 
-
 package com.example.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
-import com.example.core.database.entity.Cart
-import com.example.core.database.entity.HarvestPlant
-import kotlinx.coroutines.flow.Flow
+import com.example.core.database.entity.Food
 
 @Dao
-interface CartDao {
-    @Transaction
-    @Query("SELECT * FROM item_cart A " +
-            "LEFT JOIN meals B ON A.item_id = B.idMeal " +
-            "WHERE A.item_id = :itemID")
-    fun getItemByID(itemID: String): Flow<Cart>
+interface FoodDao {
 
-    @Query("SELECT * FROM item_cart")
-    fun getAllItemCart(): List<Cart>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFoodList(foodList: List<Food>)
 
-    @Insert
-    suspend fun insertItemCart(cartItem: Cart): Long
+    @Query("SELECT * FROM meals WHERE page = :page_")
+    suspend fun getFoodList(page_: Int): List<Food>
 
-    @Delete
-    suspend fun removeItemCart(cartItem: Cart)
+    @Query("SELECT * FROM meals WHERE page = :page_")
+    suspend fun getAllFoodList(page_: Int): List<Food>
 }

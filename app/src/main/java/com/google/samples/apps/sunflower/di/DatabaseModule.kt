@@ -18,9 +18,7 @@ package com.google.samples.apps.sunflower.di
 
 import android.content.Context
 import com.example.core.database.AppDatabase
-import com.example.core.database.dao.CartDao
-import com.example.core.database.dao.GardenPlantingDao
-import com.example.core.database.dao.PlantDao
+import com.example.core.database.dao.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,12 +46,17 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideHarvestPlantingDao(appDatabase: AppDatabase): com.example.core.database.dao.HarvestPlantingDao {
+    fun provideHarvestPlantingDao(appDatabase: AppDatabase): HarvestPlantingDao {
         return appDatabase.harvestDao()
     }
 
     @Provides
     fun provideCartDao(appDatabase: AppDatabase): CartDao {
         return appDatabase.cartDao()
+    }
+
+    @Provides
+    fun provideFoodDao(appDatabase: AppDatabase): FoodDao {
+        return appDatabase.foodDao()
     }
 }

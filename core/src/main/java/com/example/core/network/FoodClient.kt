@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.sunflower.ui.viewmodels
+package com.example.core.network
 
-import com.example.core.database.entity.CartAndHarvest
+import com.example.core.database.entity.FoodResponse
+import com.skydoves.sandwich.ApiResponse
+import javax.inject.Inject
 
-class CartAndHarvestViewModel(carts: CartAndHarvest) {
 
-    private val cartList = checkNotNull(carts.cartHarvest)
-    private val plant = checkNotNull(carts.plant)
-    val plantId
-        get() = plant.plantId
-    //var cart: Cart = cartList.filter { s -> s.cart_plant_id == plantId }.single()
-    val itemTotal : String = cartList[0].item_total.toString() //= cart.item_total.toString()
-    val imageUrl
-        get() = plant.imageUrl
-    val plantName
-        get() = plant.name
+class FoodClient @Inject constructor(
+    private val foodService: FoodService
+) {
+    suspend fun fetchDataFromService(
+        page: Int
+    ): ApiResponse<FoodResponse> =
+        foodService.fetchFoodList(
+            limit = PAGING_SIZE,
+            offset = page * PAGING_SIZE
+        )
 
+    companion object {
+        private const val PAGING_SIZE = 10
+    }
 }

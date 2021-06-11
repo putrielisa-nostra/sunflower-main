@@ -16,31 +16,40 @@
 
 package com.example.core.database.repository
 
-import androidx.lifecycle.asLiveData
+import androidx.annotation.WorkerThread
 import com.example.core.database.dao.CartDao
+import com.example.core.database.dao.FoodDao
 import com.example.core.database.entity.Cart
-import kotlinx.coroutines.delay
+import com.example.core.network.ErrorResponseMapper
+import com.example.core.network.FoodClient
+import com.skydoves.sandwich.*
+import com.skydoves.whatif.whatIfNotNull
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class CartRepository @Inject constructor(
     private val cartDao: CartDao
-) {
+) : Repository {
 
-    suspend fun createCart(plantId: String, total: Int, price: Float) {
-        val myCart = Cart(plantId, total, price)
-        cartDao.insertItemCart(myCart)
-    }
+    @WorkerThread
+    fun getItemByID(itemID: String) = cartDao.getItemByID(itemID)
+    @WorkerThread
+    fun getAllItem(
+        onStart: () -> Unit,
+        onComplete: () -> Unit,
+        onError: (String?) -> Unit
+    ) = flow {
+        var foods = cartDao.getAllItemCart()
+            emit(cartDao.getAllItemCart())
 
-    suspend fun removeHarvestPlanting(myCart: Cart) {
-        cartDao.removeItemCart(myCart)
-    }
+    }.onStart { onStart() }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
 
-    fun getlistCart() = cartDao.getharvestCart()
 
-    fun getCartByPlant(plantId: String) {
-        cartDao.getCartByPlant(plantId)
-    }
+    //fun getAllItem() = cartDao.getAllItemCart()
 }

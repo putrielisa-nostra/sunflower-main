@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.google.samples.apps.sunflower.ui.viewmodels
+package com.example.core.network
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.example.core.database.entity.CartAndHarvest
-import com.example.core.database.repository.CartRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import com.example.core.database.entity.FoodResponse
+import com.skydoves.sandwich.ApiResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
 
-@HiltViewModel
-class CartViewModel @Inject internal constructor(
-cartRepository: CartRepository
-) : ViewModel() {
-    val dataCarts: LiveData<List<CartAndHarvest>> =
-            cartRepository.getlistCart().asLiveData()
+interface FoodService {
+
+    @GET("api/json/v1/1/search.php?f=f")
+    suspend fun fetchFoodList(
+        @Query("limit") limit: Int = 10,
+        @Query("offset") offset: Int = 0
+    ): ApiResponse<FoodResponse>
+
+    //@GET("meals/{name}")
+    //suspend fun fetchFoodInfo(@Path("name") name: String): ApiResponse<FoodInfo>
 }

@@ -16,15 +16,10 @@
 
 package com.example.core.database.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.text.SimpleDateFormat
-import java.util.*
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-@Entity(tableName = "item_cart")
-data class Cart(
-    @ColumnInfo(name = "item_id") @PrimaryKey val item_id: String,
-    @ColumnInfo(name = "item_total")val item_total: Int
-) {
-}
+@JsonClass(generateAdapter = true)
+data class FoodResponse(
+    @field:Json(name = "meals") val meals: List<Food>
+)

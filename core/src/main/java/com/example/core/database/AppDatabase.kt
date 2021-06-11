@@ -25,10 +25,6 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.core.database.dao.CartDao
-import com.example.core.database.dao.GardenPlantingDao
-import com.example.core.database.dao.PlantDao
-import com.example.core.database.dao.HarvestPlantingDao
 import com.example.core.database.entity.Cart
 import com.example.core.database.entity.GardenPlanting
 import com.example.core.database.entity.HarvestPlant
@@ -36,12 +32,14 @@ import com.example.core.database.entity.Plant
 import com.example.core.database.utilities.DATABASE_NAME
 import com.example.core.database.utilities.SeedDatabaseWorker
 import com.example.core.database.converter.Converters
+import com.example.core.database.dao.*
+import com.example.core.database.entity.Food
 
 /**
  * The Room database for this app
  */
-@Database(version = 2,
-        entities = [GardenPlanting::class, Plant::class, HarvestPlant::class, Cart::class],
+@Database(version = 4,
+        entities = [GardenPlanting::class, Plant::class, HarvestPlant::class, Cart::class, Food::class],
         exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -50,6 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun plantDao(): PlantDao
     abstract fun harvestDao(): HarvestPlantingDao
     abstract fun cartDao(): CartDao
+    abstract fun foodDao(): FoodDao
 
     companion object {
         // For Singleton instantiation
@@ -75,6 +74,8 @@ abstract class AppDatabase : RoomDatabase() {
                     }
                 )
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
+                .addMigrations(MIGRATION_3_4)
                 .build()
         }
 
@@ -82,6 +83,17 @@ abstract class AppDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE garden_plantings "
                         + "ADD COLUMN last_plant_fertilize TEXT NOT NULL Default '2000-01-01'")
+            }
+        }
+        private val MIGRATION_2_3: Migration = object :Migration(2,3){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE IF NOT EXISTS meals (page INTEGER NOT NULL, idMeal TEXT NOT NULL, strMeal TEXT NOT NULL, strCategory TEXT NOT NULL, strMealThumb TEXT NOT NULL, PRIMARY KEY(idMeal))")
+            }
+        }
+        private val MIGRATION_3_4: Migration = object :Migration(3,4){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE cart_plants")
+                database.execSQL("CREATE TABLE IF NOT EXISTS item_cart (item_id TEXT NOT NULL, item_total INTEGER NOT NULL, PRIMARY KEY(item_id))")
             }
         }
 
