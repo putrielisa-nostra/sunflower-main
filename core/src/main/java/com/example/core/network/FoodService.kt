@@ -18,8 +18,8 @@ package com.example.core.network
 
 import com.example.core.database.entity.FoodResponse
 import com.skydoves.sandwich.ApiResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.Response
+import retrofit2.http.*
 
 interface FoodService {
 
@@ -28,6 +28,13 @@ interface FoodService {
         @Query("limit") limit: Int = 10,
         @Query("offset") offset: Int = 0
     ): ApiResponse<FoodResponse>
+
+    @FormUrlEncoded
+    @POST("save")
+    suspend fun sendNotification (
+        @Field("name") name: String,
+        @Field("token") token: String)
+            : Response<AuthResponse>
 
     //@GET("meals/{name}")
     //suspend fun fetchFoodInfo(@Path("name") name: String): ApiResponse<FoodInfo>

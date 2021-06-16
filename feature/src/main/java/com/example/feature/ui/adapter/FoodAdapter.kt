@@ -17,12 +17,15 @@
 package com.example.feature.ui.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.database.entity.Food
 import com.example.feature.databinding.ContentFoodBinding
+import kotlinx.android.synthetic.main.content_food.*
 
 class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback()) {
 
@@ -41,15 +44,50 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
         (holder as FoodViewHolder).bind(food)
     }
 
-    class FoodViewHolder(
-        private val binding: ContentFoodBinding
+    class FoodViewHolder(private val binding: ContentFoodBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-//            binding.setClickListener {
-//                binding.plant?.let { plant ->
-//                    navigateToPlant(plant, it)
-//                }
-//            }
+            binding.btnDelete.setOnClickListener() { view ->
+                fun crtUser(view: View) {
+                    var total: Int = 0
+                    binding.edittotal.setText(total.toString())
+                    binding.btnAdd.visibility = View.VISIBLE
+                    binding.linear.visibility = View.INVISIBLE
+                    binding.btnDelete.visibility = View.INVISIBLE
+                    binding.btnAdd.isGone = false
+                    binding.linear.isGone = true
+                }
+                crtUser(view)
+            }
+            binding.btnAdd.setOnClickListener { view ->
+                fun crtUser(view: View) {
+                    binding.btnAdd.visibility = View.INVISIBLE
+                    binding.linear.visibility = View.VISIBLE
+                    binding.btnDelete.visibility = View.VISIBLE
+                    binding.btnAdd.isGone = true
+                    binding.linear.isGone = false
+                }
+                crtUser(view)
+            }
+
+            binding.btnPlus.setOnClickListener { view ->
+                fun crtUser(view: View) {
+                    var total: Int = (binding.edittotal.text.toString()).toInt()
+                    total = total + 1
+                    binding.edittotal.setText(total.toString())
+                }
+                crtUser(view)
+            }
+            binding.btnMin.setOnClickListener { view ->
+                fun crtUser(view: View) {
+                    var total: Int = (binding.edittotal.text.toString()).toInt()
+                    if (total > 0) {
+                        total = total - 1
+                        binding.edittotal.setText(total.toString())
+                    }
+                }
+                crtUser(view)
+            }
         }
 
         fun bind(item: Food) {

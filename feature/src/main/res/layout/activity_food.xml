@@ -19,7 +19,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="vm"
             type="com.example.feature.ui.viewmodel.FoodViewModel" />
@@ -28,24 +27,49 @@
             name="adapter"
             type="com.example.feature.ui.adapter.FoodAdapter" />
     </data>
-
-    <FrameLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/sunflower_green_900">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:title="List Food"
+                app:titleTextColor="@color/white"
+                app:popupTheme="@style/Theme.Sunflowermain.PopupOverlay"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cart_items"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:clipToPadding="false"
+            android:paddingTop="@dimen/toolbar_elevation"
             android:paddingStart="@dimen/card_side_margin"
-            android:paddingTop="@dimen/header_margin"
             android:paddingEnd="@dimen/card_side_margin"
+            android:layout_marginTop="?attr/actionBarSize"
+            app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:spanCount="1"
-            app:adapter="@{adapter}"
-            tools:context="com.google.samples.apps.sunflower.ui.activity.GardenActivity"
+            tools:context=".ui.activity.FoodActivity"
             tools:listitem="@layout/content_food" />
-
-    </FrameLayout>
+        <Button
+            android:id="@+id/btnGoToCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_gravity="bottom"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/sunflower_green_900"
+            android:text="@string/checkcout"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

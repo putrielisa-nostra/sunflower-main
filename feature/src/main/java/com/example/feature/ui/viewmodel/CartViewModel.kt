@@ -16,42 +16,35 @@
 
 package com.example.feature.ui.viewmodel
 
-import androidx.annotation.MainThread
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.example.core.database.repository.CartRepository
+import androidx.lifecycle.viewModelScope
+import com.example.core.database.repository.NotifRepository
+import com.example.core.network.AuthResponse
+import com.example.core.network.utilities.Resource
+import com.example.core.network.utilities.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import timber.log.Timber
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartRepository: CartRepository
-) : ViewModel() {
-    var isLoading: Boolean = false
-    lateinit var toastMessage: String
+    private val mainRepo: NotifRepository) : ViewModel() {
 
-    private val cartFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
-    private val cartListFlow = cartFetchingIndex.flatMapLatest { page ->
-        cartRepository.getAllItem(
-            onStart = { isLoading = true },
-            onComplete = { isLoading = false },
-            onError = {
-                if (it != null) {
-                    toastMessage = it
-                }
+
+    private val _sendNotification = SingleLiveEvent<Resource<AuthResponse>>()
+
+    val sendNotification : LiveData<Resource<AuthResponse>> get() =  _sendNotification
+
+    fun doSendNotification(name: String, token: String) =
+        viewModelScope.launch {
+            try {
+                _sendNotification.value =  mainRepo.sendNotification(name, token)
             }
-        )
-    }
-    val itemList = cartListFlow.asLiveData()
+            catch (exception: Exception){
 
-    //val itemList = cartRepository.getAllItem().asLiveData()
+            }
+        }
 
-    init {
-        Timber.d("init CartViewModel")
-    }
 
 }

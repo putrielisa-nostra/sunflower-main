@@ -18,7 +18,7 @@ package com.example.core.database.repository
 
 import androidx.annotation.WorkerThread
 import com.example.core.database.dao.FoodDao
-import com.example.core.network.ErrorResponseMapper
+import com.example.core.network.utilities.ErrorResponseMapper
 import com.example.core.network.FoodClient
 import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.onError

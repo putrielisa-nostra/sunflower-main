@@ -22,8 +22,16 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="checkcout">Checkout</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_food">FoodActivity</string>
+    <string name="notification_title">You have a new notification</string>
+    <string name="app_notification_channel_id">app_channel</string>
+    <string name="default_notification_channel_id">My notification</string>
+    <string name="name">Name</string>
+    <string name="notification">Notification</string>
+    <string name="send">Send</string>
+    <string name="send_capital">SEND</string>
 </resources>

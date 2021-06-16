@@ -18,7 +18,7 @@ package com.google.samples.apps.sunflower.di
 
 import com.example.core.network.FoodClient
 import com.example.core.network.FoodService
-import com.example.core.network.HttpRequestInterceptor
+import com.example.core.network.utilities.HttpRequestInterceptor
 import com.google.samples.apps.sunflower.api.UnsplashService
 import com.skydoves.sandwich.coroutines.CoroutinesResponseCallAdapterFactory
 import dagger.Module

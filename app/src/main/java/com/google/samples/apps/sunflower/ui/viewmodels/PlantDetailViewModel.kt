@@ -44,7 +44,6 @@ class PlantDetailViewModel @Inject constructor(
     val plant = plantRepository.getPlant(plantId).asLiveData()
     val garden = gardenPlantingRepository.getGardenPlant(plantId).asLiveData()
     var harvestList = harvestPlantRepository.getHarvestByPlant(plantId).asLiveData()
-    //val totalNow = harvestList.value?.harvest_amount?.toInt()
 
 
     fun addPlantToGarden() {
@@ -53,20 +52,13 @@ class PlantDetailViewModel @Inject constructor(
         }
     }
 
-    fun addPlantToHarvest(total:Int){
+    fun addPlantToHarvest(total: Int) {
         viewModelScope.launch {
-            //var count:Int=0
-            //if (totalNow != null) {
-                //if(totalNow>0){
-                //    count = (totalNow?.plus(total) ?: harvestPlantRepository.updateHarvestPlanting(plantId, count)) as Int
-                //}else{
-                    harvestPlantRepository.createHarvestPlanting(plantId, total)
-                //}
-            //}
+            harvestPlantRepository.createHarvestPlanting(plantId, total)
         }
     }
 
-    fun UpdateLastFertilized(){
+    fun UpdateLastFertilized() {
         viewModelScope.launch {
             Thread {
                 val last_fert: String = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())

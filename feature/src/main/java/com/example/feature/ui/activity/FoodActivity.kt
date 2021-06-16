@@ -16,8 +16,10 @@
 
 package com.example.feature.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -28,6 +30,7 @@ import com.example.feature.databinding.ActivityFoodBinding
 import com.example.feature.ui.adapter.FoodAdapter
 import com.example.feature.ui.viewmodel.FoodViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.content_food.*
 
 @AndroidEntryPoint
 class FoodActivity : AppCompatActivity() {
@@ -44,11 +47,16 @@ class FoodActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val foodAdapter = FoodAdapter()
         binding.adapter = foodAdapter
-
         // Observe data from viewModel
         cartVM.foodList.observe(this, Observer {
             Log.e("Food-Activity", it.toString())
             it.let(foodAdapter::submitList)
         })
+
+        binding.btnGoToCart.setOnClickListener {
+            val intent = Intent(this, CartActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 }
