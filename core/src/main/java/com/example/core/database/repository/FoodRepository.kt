@@ -18,6 +18,7 @@ package com.example.core.database.repository
 
 import androidx.annotation.WorkerThread
 import com.example.core.database.dao.FoodDao
+import com.example.core.database.entity.Food
 import com.example.core.network.utilities.ErrorResponseMapper
 import com.example.core.network.FoodClient
 import com.skydoves.sandwich.ApiResponse
@@ -72,4 +73,8 @@ class FoodRepository @Inject constructor(
             emit(foodDao.getAllFoodList(page))
         }
     }.onStart { onStart() }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
+
+
+    suspend fun removeFood(food: Food) = foodDao.removeFood(food)
+    fun getFoodByID(foodID: String) = foodDao.getFoodByID(foodID)
 }

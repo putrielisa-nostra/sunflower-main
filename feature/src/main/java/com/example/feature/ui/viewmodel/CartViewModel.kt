@@ -18,7 +18,10 @@ package com.example.feature.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.core.database.entity.PlantAndGardenPlantings
+import com.example.core.database.repository.CartRepository
 import com.example.core.database.repository.NotifRepository
 import com.example.core.network.AuthResponse
 import com.example.core.network.utilities.Resource
@@ -29,7 +32,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val mainRepo: NotifRepository) : ViewModel() {
+    private val mainRepo: NotifRepository,
+    private val cartRepository: CartRepository
+    )
+    : ViewModel() {
 
 
     private val _sendNotification = SingleLiveEvent<Resource<AuthResponse>>()
@@ -46,5 +52,6 @@ class CartViewModel @Inject constructor(
             }
         }
 
-
+    val cartList = cartRepository.getAllItem().asLiveData()
+    val count : String = cartList.value?.size.toString()
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Google LLC
+ * Copyright 202 1 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,10 @@
 
 package com.example.core.database.repository
 
-import androidx.annotation.WorkerThread
+import androidx.lifecycle.asLiveData
 import com.example.core.database.dao.CartDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
+import com.example.core.database.entity.Cart
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,19 +28,31 @@ class CartRepository @Inject constructor(
     private val cartDao: CartDao
 ) : Repository {
 
-    @WorkerThread
-    fun getItemByID(itemID: String) = cartDao.getItemByID(itemID)
-    @WorkerThread
-    fun getAllItem(
-        onStart: () -> Unit,
-        onComplete: () -> Unit,
-        onError: (String?) -> Unit
-    ) = flow {
-        var foods = cartDao.getAllItemCart()
-            emit(cartDao.getAllItemCart())
+    fun getItemByID(itemID: String): Cart = cartDao.getItemByID(itemID)
 
-    }.onStart { onStart() }.onCompletion { onComplete() }.flowOn(Dispatchers.IO)
+    fun getAllItem() = cartDao.getAllItemCart()
 
+    fun isCart():Boolean{
+        val list=cartDao.getAllItemCart().asLiveData()
+        if(list.value?.size ?:0 >0){
+            return true
+        }else {
+            return false
+        }
+    }
+    suspend fun createCart(foodId: String, total: Int) {
+        val cart = Cart(foodId,total)
+        cartDao.insertItemCart(cart)
+    }
 
-    //fun getAllItem() = cartDao.getAllItemCart()
+    fun isCart(foodId: String) =
+        cartDao.isCart(foodId)
+
+    suspend fun UpdateItemCart(foodId: String, total: Int) {
+        cartDao.UpdateItemCart(foodId, total)
+    }
+
+    suspend fun RemoveItemCart(foodId: String) {
+        cartDao.RemoveItemCart(foodId)
+    }
 }

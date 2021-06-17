@@ -17,24 +17,24 @@
 package com.example.feature.ui.notification
 
 import android.annotation.SuppressLint
-import android.media.RingtoneManager
-import android.util.Log
-import com.example.feature.R
-import com.example.feature.ui.activity.CartActivity
-import com.example.feature.ui.notification.Notification.sendNotification
-import com.google.firebase.messaging.FirebaseMessagingService
-import com.google.firebase.messaging.RemoteMessage
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.feature.R
+import com.example.feature.ui.activity.CartActivity
+import com.google.firebase.messaging.FirebaseMessagingService
+import com.google.firebase.messaging.RemoteMessage
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     val TAG = "FirebaseMessagingService"
 
     @SuppressLint("LongLogTag")
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+
         Log.d(TAG, "Dikirim dari: ${remoteMessage.from}")
 
         if (remoteMessage.notification != null) {

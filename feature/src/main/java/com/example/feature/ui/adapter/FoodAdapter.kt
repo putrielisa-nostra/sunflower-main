@@ -16,19 +16,23 @@
 
 package com.example.feature.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.core.database.entity.Food
 import com.example.feature.databinding.ContentFoodBinding
-import kotlinx.android.synthetic.main.content_food.*
+import com.example.feature.ui.activity.FoodActivity
+import kotlinx.android.synthetic.main.activity_food.*
+import java.lang.Exception
+
 
 class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback()) {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return FoodViewHolder(
             ContentFoodBinding.inflate(
@@ -42,39 +46,40 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val food = getItem(position)
         (holder as FoodViewHolder).bind(food)
+
     }
 
-    class FoodViewHolder(private val binding: ContentFoodBinding
+    class FoodViewHolder(
+        private val binding: ContentFoodBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
+            var mContext: Context = super.itemView.context
             binding.btnDelete.setOnClickListener() { view ->
                 fun crtUser(view: View) {
                     var total: Int = 0
                     binding.edittotal.setText(total.toString())
-                    binding.btnAdd.visibility = View.VISIBLE
-                    binding.linear.visibility = View.INVISIBLE
-                    binding.btnDelete.visibility = View.INVISIBLE
                     binding.btnAdd.isGone = false
                     binding.linear.isGone = true
+                    binding.btnDelete.isGone = true
+                    (mContext as FoodActivity).RemoveCart(binding.food?.idMeal.toString())
                 }
                 crtUser(view)
             }
             binding.btnAdd.setOnClickListener { view ->
                 fun crtUser(view: View) {
-                    binding.btnAdd.visibility = View.INVISIBLE
-                    binding.linear.visibility = View.VISIBLE
-                    binding.btnDelete.visibility = View.VISIBLE
                     binding.btnAdd.isGone = true
                     binding.linear.isGone = false
+                    binding.btnDelete.isGone = false
+                    binding.edittotal.setText("1")
+                    (mContext as FoodActivity).CreateCart(binding.food?.idMeal.toString(), 1)
                 }
                 crtUser(view)
             }
-
             binding.btnPlus.setOnClickListener { view ->
                 fun crtUser(view: View) {
-                    var total: Int = (binding.edittotal.text.toString()).toInt()
-                    total = total + 1
+                    var total: Int = (binding.edittotal.text.toString()).toInt() + 1
                     binding.edittotal.setText(total.toString())
+                    (mContext as FoodActivity).UpdateCart(binding.food?.idMeal.toString(), total)
                 }
                 crtUser(view)
             }
@@ -84,6 +89,7 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                     if (total > 0) {
                         total = total - 1
                         binding.edittotal.setText(total.toString())
+                        (mContext as FoodActivity).UpdateCart(binding.food?.idMeal.toString(), total)
                     }
                 }
                 crtUser(view)
@@ -93,6 +99,16 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
         fun bind(item: Food) {
             binding.apply {
                 food = item
+                Thread{
+                    var mContext: Context = super.itemView.context
+                    val isCart = (mContext as FoodActivity).isItemCart(binding.food?.idMeal.toString())
+                    val cart = (mContext as FoodActivity).getItemCart(binding.food?.idMeal.toString())
+                    if (cart != null) {
+                        binding.edittotal.setText(cart.item_total.toString())
+                    }
+                    binding.btnAdd.isGone = isCart
+                    binding.linear.isGone = !isCart}.start()
+
                 executePendingBindings()
             }
         }
@@ -110,63 +126,3 @@ private class FoodDiffCallback : DiffUtil.ItemCallback<Food>() {
     }
 }
 
-//
-//private class FoodDiffCallback : DiffUtil.ItemCallback<Food>() {
-//
-//    override fun areItemsTheSame(
-//        oldItem: Food,
-//        newItem: Food
-//    ): Boolean {
-//        return oldItem.idMeal == newItem.idMeal
-//    }
-//
-//    override fun areContentsTheSame(
-//        oldItem: Food,
-//        newItem: Food
-//    ): Boolean {
-//        return oldItem.idMeal == newItem.idMeal
-//    }
-//}
-
-
-//
-//class FoodAdapter : BindingListAdapter<Food, FoodAdapter.FoodViewHolder>(diffUtil) {
-//
-//    private var onClickedAt = 0L
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
-//        val binding = parent.binding<ContentFoodBinding>(R.layout.content_food)
-//        return FoodViewHolder(binding).apply {
-//            binding.root.setOnClickListener {
-//                val position = bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }
-//                    ?: return@setOnClickListener
-//                val currentClickedAt = SystemClock.elapsedRealtime()
-//                if (currentClickedAt - onClickedAt > binding.transformationLayout.duration) {
-//                    //DetailActivity.startActivity(binding.transformationLayout, getItem(position))
-//                    onClickedAt = currentClickedAt
-//                }
-//            }
-//        }
-//    }
-//
-//    override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-//        holder.binding.apply {
-//            food = getItem(position)
-//            executePendingBindings()
-//        }
-//    }
-//
-//    class FoodViewHolder(val binding: ContentFoodBinding) :
-//        RecyclerView.ViewHolder(binding.root)
-//
-//    companion object {
-//        private val diffUtil = object : DiffUtil.ItemCallback<Food>() {
-//
-//            override fun areItemsTheSame(oldItem: Food, newItem: Food): Boolean =
-//                oldItem.strMeal == newItem.strMeal
-//
-//            override fun areContentsTheSame(oldItem: Food, newItem: Food): Boolean =
-//                oldItem == newItem
-//        }
-//    }
-//}

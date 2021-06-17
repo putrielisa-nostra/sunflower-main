@@ -16,24 +16,30 @@
 
 package com.example.feature.ui.viewmodel
 
+import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.*
+import com.example.core.database.entity.Cart
+import com.example.core.database.repository.CartRepository
 import com.example.core.database.repository.FoodRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
 @HiltViewModel
 class FoodViewModel @Inject constructor(
-    private val foodRepository: FoodRepository
+    private val foodRepository: FoodRepository,
+    private val cartRepository: CartRepository
 ) : ViewModel() {
 
     var isLoading: Boolean = false
     lateinit var toastMessage: String
-
     private val foodFetchingIndex: MutableStateFlow<Int> = MutableStateFlow(0)
     private val foodListFlow = foodFetchingIndex.flatMapLatest { page ->
         foodRepository.fetchFoodList(
@@ -48,7 +54,44 @@ class FoodViewModel @Inject constructor(
         )
     }
     val foodList = foodListFlow.asLiveData()
-    //val foodList: List<Food> by foodListFlow.flatMapLatest {  } (viewModelScope, emptyList())
+
+    var isCartReady: Boolean = cartRepository.isCart()
+
+    fun UpdateItemCart(mealID: String, total: Int) {
+        viewModelScope.launch {
+                cartRepository.UpdateItemCart(mealID, total)
+        }
+    }
+
+    fun InsertCart(mealID: String, total: Int) {
+        viewModelScope.launch {
+                cartRepository.createCart(mealID, total)
+        }
+    }
+
+    fun getItem(mealID: String): Cart? {
+        var data: Cart? = null
+        //viewModelScope.launch {
+        data = cartRepository.getItemByID(mealID)
+        //}
+        return data
+    }
+
+    fun RemoveItem(mealID: String) {
+        viewModelScope.launch {
+            cartRepository.RemoveItemCart(mealID)
+        }
+    }
+
+    fun isItemCart(mealID: String): Boolean {
+        return cartRepository.isCart(mealID)
+    }
+
+    fun getAllCart() {
+        viewModelScope.launch {
+            cartRepository.getAllItem().asLiveData()
+        }
+    }
 
     init {
         Timber.d("init FoodViewModel")

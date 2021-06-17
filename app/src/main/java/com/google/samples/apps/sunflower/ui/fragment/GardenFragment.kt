@@ -46,11 +46,9 @@ class GardenFragment : Fragment() {
         binding = FragmentGardenBinding.inflate(inflater, container, false)
         val adapter = GardenPlantingAdapter()
         binding.gardenList.adapter = adapter
-
         binding.addPlant.setOnClickListener {
             navigateToPlantListPage()
         }
-
         subscribeUi(adapter, binding)
         return binding.root
     }

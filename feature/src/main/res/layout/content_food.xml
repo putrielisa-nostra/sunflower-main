@@ -22,10 +22,18 @@
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
-
+        <variable
+            name="callback"
+            type="com.example.feature.ui.activity.FoodActivity.Callback" />
+        <variable
+            name="viewModel"
+            type="com.example.feature.ui.viewmodel.FoodViewModel" />
         <variable
             name="food"
             type="com.example.core.database.entity.Food" />
+        <variable
+            name="activity"
+            type="com.example.feature.ui.activity.FoodActivity" />
     </data>
 
     <com.example.feature.ui.activity.MaskedCardView
@@ -116,6 +124,7 @@
                     android:layout_width="87dp"
                     android:layout_height="wrap_content"
                     android:ems="6"
+                    android:textAlignment="center"
                     android:layout_gravity="center"
                     android:inputType="number"
                     android:maxEms="6"

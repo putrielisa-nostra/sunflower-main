@@ -32,10 +32,19 @@ interface CartDao {
     @Query("SELECT * FROM item_cart A " +
             "LEFT JOIN meals B ON A.item_id = B.idMeal " +
             "WHERE A.item_id = :itemID")
-    fun getItemByID(itemID: String): Flow<Cart>
+    fun getItemByID(itemID: String): Cart
 
     @Query("SELECT * FROM item_cart")
-    fun getAllItemCart(): List<Cart>
+    fun getAllItemCart(): Flow<List<Cart>>
+
+    @Query("UPDATE item_cart SET item_total = :total WHERE item_id = :itemID")
+    fun UpdateItemCart(itemID: String, total: Int)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM item_cart WHERE item_id = :itemId LIMIT 1)")
+    fun isCart(itemId: String): Boolean
+
+    @Query("DELETE FROM item_cart WHERE item_id=:itemID")
+    fun RemoveItemCart(itemID: String)
 
     @Insert
     suspend fun insertItemCart(cartItem: Cart): Long

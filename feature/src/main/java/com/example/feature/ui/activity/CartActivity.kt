@@ -64,6 +64,9 @@ class CartActivity : AppCompatActivity() {
         initView()
         val intent = intent
         val message = intent.getStringExtra("message")
+
+        val fcmtoken = FirebaseMessaging.getInstance().token
+        Log.e("Cart-Activity", "Token perangkat ini: ${fcmtoken}")
         if(!message.isNullOrEmpty()) {
             AlertDialog.Builder(this)
                 .setTitle("Notification")
@@ -105,7 +108,6 @@ class CartActivity : AppCompatActivity() {
             // Get new FCM registration token
             val notificationToken = task.result
             val nameString = etName.text.toString()
-
             //store the user name
             cartVModel.doSendNotification(nameString, notificationToken!!)
             setupObserver()
