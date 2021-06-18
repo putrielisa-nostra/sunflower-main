@@ -56,12 +56,12 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
             var mContext: Context = super.itemView.context
             binding.btnDelete.setOnClickListener() { view ->
                 fun crtUser(view: View) {
-                    var total: Int = 0
-                    binding.edittotal.setText(total.toString())
+                    var total: Int = (binding.edittotal.text.toString()).toInt()
                     binding.btnAdd.isGone = false
                     binding.linear.isGone = true
                     binding.btnDelete.isGone = true
-                    (mContext as FoodActivity).RemoveCart(binding.food?.idMeal.toString())
+                    (mContext as FoodActivity).RemoveCart(binding.food?.idMeal.toString(),total)
+                    binding.edittotal.setText("0")
                 }
                 crtUser(view)
             }
@@ -79,7 +79,9 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                 fun crtUser(view: View) {
                     var total: Int = (binding.edittotal.text.toString()).toInt() + 1
                     binding.edittotal.setText(total.toString())
-                    (mContext as FoodActivity).UpdateCart(binding.food?.idMeal.toString(), total)
+                    if(total>0){
+                        (mContext as FoodActivity).UpdateCart(binding.food?.idMeal.toString(), total)
+                    }
                 }
                 crtUser(view)
             }
@@ -89,7 +91,13 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                     if (total > 0) {
                         total = total - 1
                         binding.edittotal.setText(total.toString())
-                        (mContext as FoodActivity).UpdateCart(binding.food?.idMeal.toString(), total)
+                        (mContext as FoodActivity).UpdateCart(
+                            binding.food?.idMeal.toString(),
+                            total
+                        )
+                    }
+                    if(total==0){
+                        (mContext as FoodActivity).RemoveCart(binding.food?.idMeal.toString(), total)
                     }
                 }
                 crtUser(view)
@@ -99,15 +107,19 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
         fun bind(item: Food) {
             binding.apply {
                 food = item
-                Thread{
+                Thread {
                     var mContext: Context = super.itemView.context
-                    val isCart = (mContext as FoodActivity).isItemCart(binding.food?.idMeal.toString())
-                    val cart = (mContext as FoodActivity).getItemCart(binding.food?.idMeal.toString())
+                    val isCart =
+                        (mContext as FoodActivity).isItemCart(binding.food?.idMeal.toString())
+                    val cart =
+                        (mContext as FoodActivity).getItemCart(binding.food?.idMeal.toString())
                     if (cart != null) {
                         binding.edittotal.setText(cart.item_total.toString())
                     }
                     binding.btnAdd.isGone = isCart
-                    binding.linear.isGone = !isCart}.start()
+                    binding.linear.isGone = !isCart
+                    binding.btnDelete.isGone = !isCart
+                }.start()
 
                 executePendingBindings()
             }

@@ -54,18 +54,19 @@ class FoodViewModel @Inject constructor(
         )
     }
     val foodList = foodListFlow.asLiveData()
-
     var isCartReady: Boolean = cartRepository.isCart()
 
     fun UpdateItemCart(mealID: String, total: Int) {
         viewModelScope.launch {
+            Thread {
                 cartRepository.UpdateItemCart(mealID, total)
+            }.start()
         }
     }
 
     fun InsertCart(mealID: String, total: Int) {
         viewModelScope.launch {
-                cartRepository.createCart(mealID, total)
+            cartRepository.createCart(mealID, total)
         }
     }
 
@@ -77,9 +78,9 @@ class FoodViewModel @Inject constructor(
         return data
     }
 
-    fun RemoveItem(mealID: String) {
+    fun RemoveItem(mealID: String, total: Int) {
         viewModelScope.launch {
-            cartRepository.RemoveItemCart(mealID)
+            cartRepository.RemoveItemCart(mealID, total)
         }
     }
 

@@ -16,6 +16,7 @@
 
 package com.example.core.database.repository
 
+import android.util.Log
 import androidx.lifecycle.asLiveData
 import com.example.core.database.dao.CartDao
 import com.example.core.database.entity.Cart
@@ -32,27 +33,34 @@ class CartRepository @Inject constructor(
 
     fun getAllItem() = cartDao.getAllItemCart()
 
-    fun isCart():Boolean{
-        val list=cartDao.getAllItemCart().asLiveData()
-        if(list.value?.size ?:0 >0){
+    fun isCart(): Boolean {
+        val list = cartDao.getAllItemCart().asLiveData()
+        if (list.value?.size ?: 0 > 0) {
             return true
-        }else {
+        } else {
             return false
         }
     }
+
     suspend fun createCart(foodId: String, total: Int) {
-        val cart = Cart(foodId,total)
+        val cart = Cart(foodId, total)
         cartDao.insertItemCart(cart)
     }
 
     fun isCart(foodId: String) =
         cartDao.isCart(foodId)
 
-    suspend fun UpdateItemCart(foodId: String, total: Int) {
-        cartDao.UpdateItemCart(foodId, total)
+    fun UpdateItemCart(foodId: String, total: Int) {
+        try {
+            cartDao.UpdateItemCart(foodId, total)
+        }
+        catch (ex: Exception) {
+            Log.e("Cart-Repo: ", ex.toString())
+        }
     }
 
-    suspend fun RemoveItemCart(foodId: String) {
-        cartDao.RemoveItemCart(foodId)
+    suspend fun RemoveItemCart(foodId: String, total: Int) {
+        val cart = Cart(foodId, total)
+        cartDao.removeItemCart(cart)
     }
 }

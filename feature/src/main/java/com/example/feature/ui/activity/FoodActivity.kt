@@ -56,27 +56,22 @@ class FoodActivity : AppCompatActivity() {
             Log.e("Food-Activity", it.toString())
             it.let(foodAdapter::submitList)
         })
-        var countTotalItem:Int=0
         cartViewModel.cartList.observe(this, Observer{
+            var countTotalItem:Int=0
             it.let {
                 it.forEach {
-                    countTotalItem=countTotalItem+it.item_total
+                    countTotalItem += it.item_total
                 }
-                binding.cartCount.setText(countTotalItem.toString())
             }
+            binding.cartCount.setText(countTotalItem.toString())
         })
         binding.btnGoToCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
     }
-
-    fun GoToCart(){
-        val intent = Intent(this, CartActivity::class.java)
-        startActivity(intent)
-    }
-    fun RemoveCart(mealID: String){
-        foodViewModel.RemoveItem(mealID)
+    fun RemoveCart(mealID: String, total: Int){
+        foodViewModel.RemoveItem(mealID, total)
     }
     fun UpdateCart(mealID: String, total: Int){
         foodViewModel.UpdateItemCart(mealID,total)
