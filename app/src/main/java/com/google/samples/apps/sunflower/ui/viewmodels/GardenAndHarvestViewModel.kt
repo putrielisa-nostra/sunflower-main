@@ -17,18 +17,21 @@
 package com.google.samples.apps.sunflower.ui.viewmodels
 
 import com.example.core.database.entity.GardenAndHarvest
+import com.example.core.database.entity.HarvestPlant
+import com.example.core.database.repository.HarvestPlantRepository
 
 class GardenAndHarvestViewModel(harvests: GardenAndHarvest) {
-
     private val garden = checkNotNull(harvests.garden)
     private val plant = checkNotNull(harvests.plant)
     val plantId
         get() = garden.plantId
     var harvest = harvests.harvestPlantings[0]
+    val listHarvests = harvests.harvestPlantings.filter { it ->
+        it.harvest_plant_id.equals(plantId)
+    }.toList()
     val imageUrl
         get() = plant.imageUrl
     val plantName
         get() = plant.name
     val amountHarvest: String = harvest.harvest_amount.toString()
-
 }

@@ -64,23 +64,21 @@ class FoodViewModel @Inject constructor(
         }
     }
 
-    fun InsertCart(mealID: String, total: Int) {
+    fun InsertCart(mealID: String, total: Int, price:String) {
         viewModelScope.launch {
-            cartRepository.createCart(mealID, total)
+            cartRepository.createCart(mealID, total, price)
         }
     }
 
     fun getItem(mealID: String): Cart? {
         var data: Cart? = null
-        //viewModelScope.launch {
         data = cartRepository.getItemByID(mealID)
-        //}
         return data
     }
 
-    fun RemoveItem(mealID: String, total: Int) {
+    fun RemoveItem(mealID: String, total: Int, price:String) {
         viewModelScope.launch {
-            cartRepository.RemoveItemCart(mealID, total)
+            cartRepository.RemoveItemCart(mealID, total, price)
         }
     }
 

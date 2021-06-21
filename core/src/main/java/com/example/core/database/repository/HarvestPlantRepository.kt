@@ -16,7 +16,6 @@
 
 package com.example.core.database.repository
 
-import androidx.lifecycle.asLiveData
 import com.example.core.database.dao.HarvestPlantingDao
 import com.example.core.database.entity.HarvestPlant
 import javax.inject.Inject
@@ -32,17 +31,16 @@ class HarvestPlantRepository @Inject constructor(
         harvestPlantingDao.insertHarvestPlant(gardenPlanting)
     }
     suspend fun updateHarvestPlanting(plantId: String, total: Int) {
-        val gardenPlanting = HarvestPlant(plantId, total)
-        harvestPlantingDao.updateHarvestPlant(gardenPlanting)
+        harvestPlantingDao.updateHarvest(plantId, total)
     }
 
     suspend fun removeHarvestPlanting(harvestPlanting: HarvestPlant) {
         harvestPlantingDao.deleteHarvestPlant(harvestPlanting)
     }
-    fun isHarvest(plantId: String) =
+    fun isHarvest(plantId: String):Boolean =
         harvestPlantingDao.isHarvest(plantId)
 
-    fun getGardenHarvests() = harvestPlantingDao.getGardenHarvest()
+    fun getOneListHarvest() = harvestPlantingDao.getOneListHarvest()
     fun getHarvestByPlant(plantId: String)=
             harvestPlantingDao.getHarvestByPlant(plantId)
 }

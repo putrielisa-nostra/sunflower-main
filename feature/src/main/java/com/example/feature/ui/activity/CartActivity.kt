@@ -76,20 +76,15 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun initView(){
-
         loadingProgress = binding.loading
         buttonSend = binding.btnSend
         name = binding.etName
-
         //listen to click event
         buttonSend!!.setOnClickListener {
-
             //hide button
             buttonSend!!.visibility = View.GONE
-
             //show progress bar
             loadingProgress!!.visibility = View.VISIBLE
-
             //register user
             doRegisterUser()
         }
@@ -97,7 +92,6 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun doRegisterUser(){
-
         //get user notification token provided by firebase
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -116,53 +110,37 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun setupObserver(){
-
         //observe data obtained
         cartVModel.sendNotification.observe(this, Observer {
-
             when(it.status){
-
                 Resource.Status.SUCCESS ->{
-
                     if(it.data?.status == "success"){
-
                         //stop progress bar
                         loadingProgress!!.visibility = View.GONE
                         buttonSend!!.visibility = View.VISIBLE
-
                         //show toast message
                         Toast.makeText(this, "Notification sent successfully", Toast.LENGTH_LONG).show()
                     }
 
                     else if(it.data?.status == "fail"){
-
                         //stop progress bar
                         loadingProgress!!.visibility = View.GONE
                         buttonSend!!.visibility = View.VISIBLE
-
                         //something went wrong, show error message
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-
                     }
-
-
                 }
                 Resource.Status.ERROR -> {
-
                     Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
-
                     loading!!.visibility = View.GONE
                     buttonSend!!.visibility = View.VISIBLE
 
                 }
                 Resource.Status.LOADING -> {
-
                     loading!!.visibility = View.VISIBLE
                     buttonSend!!.visibility = View.GONE
-
                 }
             }
-
         })
 
     }

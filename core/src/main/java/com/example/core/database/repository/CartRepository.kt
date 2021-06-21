@@ -42,8 +42,8 @@ class CartRepository @Inject constructor(
         }
     }
 
-    suspend fun createCart(foodId: String, total: Int) {
-        val cart = Cart(foodId, total)
+    suspend fun createCart(foodId: String, total: Int, price:String) {
+        val cart = Cart(foodId, total, price)
         cartDao.insertItemCart(cart)
     }
 
@@ -59,8 +59,8 @@ class CartRepository @Inject constructor(
         }
     }
 
-    suspend fun RemoveItemCart(foodId: String, total: Int) {
-        val cart = Cart(foodId, total)
+    suspend fun RemoveItemCart(foodId: String, total: Int, price:String) {
+        val cart = Cart(foodId, total, price)
         cartDao.removeItemCart(cart)
     }
 }

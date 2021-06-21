@@ -38,9 +38,10 @@ import com.example.core.database.entity.Food
 /**
  * The Room database for this app
  */
-@Database(version = 4,
-        entities = [GardenPlanting::class, Plant::class, HarvestPlant::class, Cart::class, Food::class],
-        exportSchema = false
+@Database(
+    version = 7,
+    entities = [GardenPlanting::class, Plant::class, HarvestPlant::class, Cart::class, Food::class],
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -52,7 +53,8 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         // For Singleton instantiation
-        @Volatile private var instance: AppDatabase? = null
+        @Volatile
+        private var instance: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
             return instance ?: synchronized(this) {
@@ -76,24 +78,53 @@ abstract class AppDatabase : RoomDatabase() {
                 .addMigrations(MIGRATION_1_2)
                 .addMigrations(MIGRATION_2_3)
                 .addMigrations(MIGRATION_3_4)
+                .addMigrations(MIGRATION_4_5)
+                .addMigrations(MIGRATION_5_6)
+                .addMigrations(MIGRATION_6_7)
                 .build()
         }
 
         private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE garden_plantings "
-                        + "ADD COLUMN last_plant_fertilize TEXT NOT NULL Default '2000-01-01'")
+                database.execSQL(
+                    "ALTER TABLE garden_plantings "
+                            + "ADD COLUMN last_plant_fertilize TEXT NOT NULL Default '2000-01-01'"
+                )
             }
         }
-        private val MIGRATION_2_3: Migration = object :Migration(2,3){
+        private val MIGRATION_2_3: Migration = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("CREATE TABLE IF NOT EXISTS meals (page INTEGER NOT NULL, idMeal TEXT NOT NULL, strMeal TEXT NOT NULL, strCategory TEXT NOT NULL, strMealThumb TEXT NOT NULL, PRIMARY KEY(idMeal))")
             }
         }
-        private val MIGRATION_3_4: Migration = object :Migration(3,4){
+        private val MIGRATION_3_4: Migration = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DROP TABLE cart_plants")
                 database.execSQL("CREATE TABLE IF NOT EXISTS item_cart (item_id TEXT NOT NULL, item_total INTEGER NOT NULL, PRIMARY KEY(item_id))")
+            }
+        }
+        private val MIGRATION_4_5: Migration = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE meals "
+                            + "ADD COLUMN price TEXT NOT NULL Default '0'"
+                )
+            }
+        }
+        private val MIGRATION_5_6: Migration = object : Migration(5,6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE meals " +
+                            "ALTER price SET Default '500'"
+                )
+            }
+        }
+        private val MIGRATION_6_7: Migration = object : Migration(6,7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "ALTER TABLE item_cart "
+                            + "ADD COLUMN item_price TEXT NOT NULL Default '0'"
+                )
             }
         }
 

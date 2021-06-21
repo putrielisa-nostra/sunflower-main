@@ -31,6 +31,7 @@ data class Food(
     @field:Json(name = "idMeal") @PrimaryKey val idMeal: String,
     @field:Json(name = "strMeal") val strMeal: String,
     @field:Json(name = "strCategory") val strCategory: String,
-    @field:Json(name = "strMealThumb") val strMealThumb: String
+    @field:Json(name = "strMealThumb") val strMealThumb: String,
+    @field:Json(name = "price") val price: String = "500"
 ) : Parcelable {
 }

@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.example.core.database.entity.HarvestPlant
 import com.google.samples.apps.sunflower.R
 import com.google.samples.apps.sunflower.ui.adapters.HarvestAdapter
 import com.google.samples.apps.sunflower.ui.adapters.MY_GARDEN_PAGE_INDEX
@@ -45,17 +46,22 @@ class HarvestFragment : Fragment(){
         binding = FragmentHarvestBinding.inflate(inflater, container, false)
         val adapter = HarvestAdapter()
         binding.harvestList.adapter = adapter
-
         binding.addPlant.setOnClickListener {
             navigateToPlantListPage()
         }
-
         subscribeUi(adapter, binding)
         return binding.root
     }
-
+    fun getCountPlant(plantID: String):String{
+         val data = viewModel.getHarvestByPlant(plantID)
+        var count=0
+        data.forEach {
+            count += it.harvest_amount
+        }
+        return count.toString()
+    }
     private fun subscribeUi(adapter: HarvestAdapter, binding: FragmentHarvestBinding) {
-        viewModel.harvestAndGardenPlantings.observe(viewLifecycleOwner) { result ->
+        viewModel.getOneListHarvest.observe(viewLifecycleOwner) { result ->
             binding.hasPlantings = !result.isNullOrEmpty()
             adapter.submitList(result)
         }

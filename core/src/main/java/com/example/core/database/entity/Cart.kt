@@ -25,6 +25,7 @@ import java.util.*
 @Entity(tableName = "item_cart")
 data class Cart(
     @ColumnInfo(name = "item_id") @PrimaryKey val item_id: String,
-    @ColumnInfo(name = "item_total")val item_total: Int
+    @ColumnInfo(name = "item_total")val item_total: Int,
+    @ColumnInfo(name = "item_price")val item_price: String
 ) {
 }

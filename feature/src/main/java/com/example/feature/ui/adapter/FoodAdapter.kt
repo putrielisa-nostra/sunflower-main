@@ -20,7 +20,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -28,8 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.core.database.entity.Food
 import com.example.feature.databinding.ContentFoodBinding
 import com.example.feature.ui.activity.FoodActivity
-import kotlinx.android.synthetic.main.activity_food.*
-import java.lang.Exception
 
 
 class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback()) {
@@ -60,7 +57,11 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                     binding.btnAdd.isGone = false
                     binding.linear.isGone = true
                     binding.btnDelete.isGone = true
-                    (mContext as FoodActivity).RemoveCart(binding.food?.idMeal.toString(),total)
+                    (mContext as FoodActivity).removeCart(
+                        binding.food?.idMeal.toString(),
+                        total,
+                        binding.food?.price.toString()
+                    )
                     binding.edittotal.setText("0")
                 }
                 crtUser(view)
@@ -71,7 +72,11 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                     binding.linear.isGone = false
                     binding.btnDelete.isGone = false
                     binding.edittotal.setText("1")
-                    (mContext as FoodActivity).CreateCart(binding.food?.idMeal.toString(), 1)
+                    (mContext as FoodActivity).createCart(
+                        binding.food?.idMeal.toString(),
+                        1,
+                        binding.food?.price.toString()
+                    )
                 }
                 crtUser(view)
             }
@@ -79,8 +84,19 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                 fun crtUser(view: View) {
                     var total: Int = (binding.edittotal.text.toString()).toInt() + 1
                     binding.edittotal.setText(total.toString())
-                    if(total>0){
-                        (mContext as FoodActivity).UpdateCart(binding.food?.idMeal.toString(), total)
+
+                    if (total > 1) {
+                        (mContext as FoodActivity).updateCart(
+                            binding.food?.idMeal.toString(),
+                            total
+                        )
+                    }
+                    else if(total==1) {
+                        (mContext as FoodActivity).createCart(
+                            binding.food?.idMeal.toString(),
+                            1,
+                            binding.food?.price.toString()
+                        )
                     }
                 }
                 crtUser(view)
@@ -91,13 +107,17 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                     if (total > 0) {
                         total = total - 1
                         binding.edittotal.setText(total.toString())
-                        (mContext as FoodActivity).UpdateCart(
+                        (mContext as FoodActivity).updateCart(
                             binding.food?.idMeal.toString(),
                             total
                         )
                     }
-                    if(total==0){
-                        (mContext as FoodActivity).RemoveCart(binding.food?.idMeal.toString(), total)
+                    if (total == 0) {
+                        (mContext as FoodActivity).removeCart(
+                            binding.food?.idMeal.toString(),
+                            total,
+                            binding.food?.price.toString()
+                        )
                     }
                 }
                 crtUser(view)
@@ -120,7 +140,6 @@ class FoodAdapter : ListAdapter<Food, RecyclerView.ViewHolder>(FoodDiffCallback(
                     binding.linear.isGone = !isCart
                     binding.btnDelete.isGone = !isCart
                 }.start()
-
                 executePendingBindings()
             }
         }

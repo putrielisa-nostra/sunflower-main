@@ -34,26 +34,27 @@ interface HarvestPlantingDao {
     fun getHarvestPlantings(): Flow<List<HarvestPlant>>
 
     @Query("SELECT EXISTS(SELECT 1 FROM harvest_plantings WHERE harvest_plant_id = :plantId LIMIT 1)")
-    fun isHarvest(plantId: String): Flow<Boolean>
+    fun isHarvest(plantId: String): Boolean
 
     @Transaction
     @Query("SELECT * FROM harvest_plantings A " +
             "LEFT JOIN garden_plantings B ON A.harvest_plant_id = B.plant_id " +
-            "LEFT JOIN plants C ON A.harvest_plant_id = C.id")
-    fun getGardenHarvest(): Flow<List<GardenAndHarvest>>
+            "LEFT JOIN plants C ON A.harvest_plant_id = C.id " +
+            "GROUP BY A.harvest_plant_id")
+    fun getOneListHarvest(): Flow<List<GardenAndHarvest>>
 
     @Transaction
     @Query("SELECT * FROM harvest_plantings A " +
             "LEFT JOIN garden_plantings B ON A.harvest_plant_id = B.plant_id " +
             "LEFT JOIN plants C ON A.harvest_plant_id = C.id " +
             "WHERE A.harvest_plant_id = :plantId")
-    fun getHarvestByPlant(plantId: String): Flow<HarvestPlant>
+    fun getHarvestByPlant(plantId: String): List<HarvestPlant>
+
+    @Query("UPDATE harvest_plantings SET harvest_amount = :total WHERE harvest_plant_id = :plantID")
+    suspend fun updateHarvest(plantID: String, total: Int)
 
     @Insert
     suspend fun insertHarvestPlant(gardenPlanting: HarvestPlant): Long
-
-    @Insert
-    suspend fun updateHarvestPlant(gardenPlanting: HarvestPlant): Long
 
     @Delete
     suspend fun deleteHarvestPlant(gardenPlanting: HarvestPlant)

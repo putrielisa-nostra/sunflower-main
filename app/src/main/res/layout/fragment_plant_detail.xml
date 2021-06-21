@@ -32,6 +32,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_lay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorSurface"
@@ -232,7 +233,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginTop="100dp"
-            android:background="@drawable/ic_badge"
+            android:background="@color/white"
             android:elevation="30dp"
             android:padding="4dp"
             app:isGone="@{!viewModel.isPlanted()}"
@@ -241,8 +242,8 @@
 
             <EditText
                 android:id="@+id/edittotal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="181dp"
+                android:layout_height="43dp"
                 android:layout_marginHorizontal="10dp"
                 android:ems="10"
                 android:inputType="number"
@@ -282,12 +283,14 @@
 
             <Button
                 android:id="@+id/btnHarvest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="101dp"
+                android:layout_height="45dp"
                 android:layout_gravity="bottom"
-                android:shadowColor="@color/sunflower_gray_50_a600"
+                android:layout_marginRight="15dp"
+                android:textSize="12dp"
                 android:background="@drawable/buttonbg"
                 android:clickable="true"
+                android:shadowColor="@color/sunflower_gray_50_a600"
                 android:text="@string/add_harvest"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"

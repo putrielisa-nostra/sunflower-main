@@ -20,15 +20,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.core.database.entity.GardenAndHarvest
+import com.example.core.database.entity.HarvestPlant
 import com.example.core.database.repository.HarvestPlantRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class GardenHarvestViewModel @Inject internal constructor(
-    harvestPlantingRepository: HarvestPlantRepository
+    val harvestPlantingRepository: HarvestPlantRepository
 ) : ViewModel() {
-    val harvestAndGardenPlantings: LiveData<List<GardenAndHarvest>> =
-        harvestPlantingRepository.getGardenHarvests().asLiveData()
+    val getOneListHarvest: LiveData<List<GardenAndHarvest>> =
+        harvestPlantingRepository.getOneListHarvest().asLiveData()
+
+    fun getHarvestByPlant(plantID: String): List<HarvestPlant> {
+        return harvestPlantingRepository.getHarvestByPlant(plantID)
+    }
 
 }

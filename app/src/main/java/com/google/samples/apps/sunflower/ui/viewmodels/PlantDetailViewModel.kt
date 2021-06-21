@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 /**
  * The ViewModel used in [PlantDetailFragment].
@@ -43,8 +44,6 @@ class PlantDetailViewModel @Inject constructor(
     val isPlanted = gardenPlantingRepository.isPlanted(plantId).asLiveData()
     val plant = plantRepository.getPlant(plantId).asLiveData()
     val garden = gardenPlantingRepository.getGardenPlant(plantId).asLiveData()
-    var harvestList = harvestPlantRepository.getHarvestByPlant(plantId).asLiveData()
-
 
     fun addPlantToGarden() {
         viewModelScope.launch {
@@ -52,9 +51,15 @@ class PlantDetailViewModel @Inject constructor(
         }
     }
 
-    fun addPlantToHarvest(total: Int) {
+    fun managePlantToHarvest(total: Int) {
         viewModelScope.launch {
             harvestPlantRepository.createHarvestPlanting(plantId, total)
+        }
+    }
+
+    fun EditHarvest(planID: String, total: Int) {
+        viewModelScope.launch {
+            harvestPlantRepository.updateHarvestPlanting(plantId, total)
         }
     }
 

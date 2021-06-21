@@ -16,19 +16,24 @@
 
 package com.google.samples.apps.sunflower.ui.adapters
 
+import android.content.ContextWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.samples.apps.sunflower.R
 import com.example.core.database.entity.GardenAndHarvest
+import com.google.samples.apps.sunflower.R
 import com.google.samples.apps.sunflower.databinding.ListItemHarvestPlantingBinding
+import com.google.samples.apps.sunflower.ui.activity.GardenActivity
+import com.google.samples.apps.sunflower.ui.fragment.HarvestFragment
 import com.google.samples.apps.sunflower.ui.fragment.HomeViewPagerFragmentDirections
 import com.google.samples.apps.sunflower.ui.viewmodels.GardenAndHarvestViewModel
+import dagger.hilt.android.internal.managers.ViewComponentManager
 
 class HarvestAdapter :
     ListAdapter<GardenAndHarvest, HarvestAdapter.ViewHolder>(
@@ -70,6 +75,14 @@ class HarvestAdapter :
         fun bind(harvests: GardenAndHarvest) {
             with(binding) {
                 viewModel = GardenAndHarvestViewModel(harvests)
+                Thread {
+                    var count = 0
+                    val harvest = GardenAndHarvestViewModel(harvests).listHarvests
+                    harvest.forEach {
+                        count += it.harvest_amount
+                    }
+                    binding.harvestTotal.setText(count.toString())
+                }.start()
                 executePendingBindings()
             }
         }

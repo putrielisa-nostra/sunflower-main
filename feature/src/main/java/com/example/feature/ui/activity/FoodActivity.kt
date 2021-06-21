@@ -57,27 +57,30 @@ class FoodActivity : AppCompatActivity() {
             it.let(foodAdapter::submitList)
         })
         cartViewModel.cartList.observe(this, Observer{
-            var countTotalItem:Int=0
+            var countTotalItem=0
+            var totalPrice=0
             it.let {
                 it.forEach {
                     countTotalItem += it.item_total
+                    totalPrice += (it.item_total*it.item_price.toInt())
                 }
             }
             binding.cartCount.setText(countTotalItem.toString())
+            binding.totalPrice.setText(totalPrice.toString())
         })
         binding.btnGoToCart.setOnClickListener {
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
     }
-    fun RemoveCart(mealID: String, total: Int){
-        foodViewModel.RemoveItem(mealID, total)
+    fun removeCart(mealID: String, total: Int, price:String){
+        foodViewModel.RemoveItem(mealID, total, price)
     }
-    fun UpdateCart(mealID: String, total: Int){
+    fun updateCart(mealID: String, total: Int){
         foodViewModel.UpdateItemCart(mealID,total)
     }
-    fun CreateCart(mealID: String, total: Int){
-        foodViewModel.InsertCart(mealID,total)
+    fun createCart(mealID: String, total: Int, price:String){
+        foodViewModel.InsertCart(mealID,total, price)
     }
     fun isItemCart(mealID: String):Boolean{
          return foodViewModel.isItemCart(mealID)
@@ -85,7 +88,6 @@ class FoodActivity : AppCompatActivity() {
     fun getItemCart(mealID: String): Cart? {
         return foodViewModel.getItem(mealID)
     }
-
     fun interface Callback {
         fun add(food: Food?)
     }
