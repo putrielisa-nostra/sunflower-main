@@ -27,7 +27,6 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.shape.ShapeAppearancePathProvider
 
-
 class MaskedCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

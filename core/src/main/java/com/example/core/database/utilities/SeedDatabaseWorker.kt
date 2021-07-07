@@ -25,7 +25,6 @@ import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
 import com.example.core.database.AppDatabase
 import com.example.core.database.entity.Plant
-import com.example.core.database.utilities.PLANT_DATA_FILENAME
 import kotlinx.coroutines.coroutineScope
 
 class SeedDatabaseWorker(
@@ -38,10 +37,8 @@ class SeedDatabaseWorker(
                 JsonReader(inputStream.reader()).use { jsonReader ->
                     val plantType = object : TypeToken<List<Plant>>() {}.type
                     val plantList: List<Plant> = Gson().fromJson(jsonReader, plantType)
-
                     val database = AppDatabase.getInstance(applicationContext)
                     database.plantDao().insertAll(plantList)
-
                     Result.success()
                 }
             }

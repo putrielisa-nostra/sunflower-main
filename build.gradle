@@ -56,6 +56,8 @@ buildscript {
 
     repositories {
         google()
+        mavenCentral()
+        gradlePluginPortal()
         jcenter()
     }
 
@@ -65,6 +67,8 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
         classpath 'com.google.gms:google-services:4.3.8'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.3.0'
+        classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:[0.12.10, 0.99.99]'
     }
 }
 
@@ -75,7 +79,11 @@ plugins {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
+        flatDir {
+            dirs 'libs'
+        }
     }
 }
 

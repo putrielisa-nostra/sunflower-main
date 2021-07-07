@@ -94,6 +94,7 @@ class PlantDetailFragment : Fragment() {
                     )
                     btnFert.startAnimation(anim)
                     plantDateFert.setTextColor(Color.BLACK)
+
                     Snackbar.make(root, "Update last fertilized...", Snackbar.LENGTH_LONG)
                         .show()
                 }

@@ -16,18 +16,19 @@
 
 package com.example.feature.ui.viewmodel
 
-import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.*
 import com.example.core.database.entity.Cart
 import com.example.core.database.repository.CartRepository
 import com.example.core.database.repository.FoodRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -53,6 +54,16 @@ class FoodViewModel @Inject constructor(
             }
         )
     }
+    private var isSessionExpired = false
+
+    suspend fun checkSessionExpiry(): Boolean {
+        withContext(Dispatchers.IO) {
+            delay(5_000) // to simulate a heavy weight operations
+            isSessionExpired = true
+        }
+        return isSessionExpired
+    }
+
     val foodList = foodListFlow.asLiveData()
     var isCartReady: Boolean = cartRepository.isCart()
 

@@ -25,15 +25,14 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.core.database.entity.Cart
-import com.example.core.database.entity.GardenPlanting
-import com.example.core.database.entity.HarvestPlant
-import com.example.core.database.entity.Plant
-import com.example.core.database.utilities.DATABASE_NAME
-import com.example.core.database.utilities.SeedDatabaseWorker
 import com.example.core.database.converter.Converters
 import com.example.core.database.dao.*
-import com.example.core.database.entity.Food
+import com.example.core.database.entity.*
+import com.example.core.database.utilities.DATABASE_NAME
+import com.example.core.database.utilities.SeedDatabaseWorker
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SQLiteDatabaseHook
+import net.sqlcipher.database.SupportFactory
 
 /**
  * The Room database for this app
@@ -41,7 +40,7 @@ import com.example.core.database.entity.Food
 @Database(
     version = 7,
     entities = [GardenPlanting::class, Plant::class, HarvestPlant::class, Cart::class, Food::class],
-    exportSchema = false
+    exportSchema = true
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -51,8 +50,23 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun cartDao(): CartDao
     abstract fun foodDao(): FoodDao
 
+    //    companion object {
+//        fun getInstance(context: Context):
+//                AppDatabase = buildDatabase(context)
+//
+//        private fun buildDatabase(
+//            context: Context
+//        ): AppDatabase {
+//            // DatabaseKeyMgr is a singleton that all of the above code is wrapped into.
+//            // Ideally this should be injected through DI but to simplify the sample code
+//            // we'll retrieve it as follows
+//            //val dbKey = WorkManager.getInstance().getCharKey(passcode, context)
+//            val supportFactory = SupportFactory(SQLiteDatabase.getBytes("thissunflower".toCharArray()))
+//            return Room.databaseBuilder(context, AppDatabase::class.java,
+//                DATABASE_NAME).openHelperFactory(supportFactory).build()
+//        }
+//    }
     companion object {
-        // For Singleton instantiation
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -62,9 +76,23 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Create and pre-populate the database. See this article for more details:
-        // https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1#4785
         private fun buildDatabase(context: Context): AppDatabase {
+
+            val passphrase: ByteArray =
+                SQLiteDatabase.getBytes("thissunflower".toCharArray())
+
+            val factory = SupportFactory(passphrase, object : SQLiteDatabaseHook {
+                override fun preKey(database: SQLiteDatabase?) {
+                }
+
+                override fun postKey(database: SQLiteDatabase?) {
+                    database?.execSQL("PRAGMA kdf_iter = 64000;")
+                    database?.execSQL("PRAGMA cipher_page_size = 1024;")
+                    database?.execSQL("PRAGMA cipher_hmac_algorithm = HMAC_SHA1;")
+                    database?.execSQL("PRAGMA cipher_kdf_algorithm = PBKDF2_HMAC_SHA1;")
+                }
+            }, false)
+
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .addCallback(
                     object : RoomDatabase.Callback() {
@@ -75,6 +103,7 @@ abstract class AppDatabase : RoomDatabase() {
                         }
                     }
                 )
+                .openHelperFactory(factory)
                 .addMigrations(MIGRATION_1_2)
                 .addMigrations(MIGRATION_2_3)
                 .addMigrations(MIGRATION_3_4)
@@ -111,15 +140,15 @@ abstract class AppDatabase : RoomDatabase() {
                 )
             }
         }
-        private val MIGRATION_5_6: Migration = object : Migration(5,6) {
+        private val MIGRATION_5_6: Migration = object : Migration(5, 6) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL(
-                    "ALTER TABLE meals " +
-                            "ALTER price SET Default '500'"
-                )
+                database.execSQL("CREATE TABLE IF NOT EXISTS meals_temp (page INTEGER NOT NULL, idMeal TEXT NOT NULL, strMeal TEXT NOT NULL, strCategory TEXT NOT NULL, strMealThumb TEXT NOT NULL, price TEXT NOT NULL DEFAULT '500', PRIMARY KEY(idMeal))")
+                database.execSQL("INSERT INTO meals_temp (page, idMeal, strMeal, strCategory, strMealThumb, price) SELECT page, idMeal, strMeal, strCategory, strMealThumb, price FROM meals")
+                database.execSQL("DROP TABLE meals")
+                database.execSQL("ALTER TABLE meals_temp RENAME TO meals")
             }
         }
-        private val MIGRATION_6_7: Migration = object : Migration(6,7) {
+        private val MIGRATION_6_7: Migration = object : Migration(6, 7) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL(
                     "ALTER TABLE item_cart "
@@ -127,7 +156,6 @@ abstract class AppDatabase : RoomDatabase() {
                 )
             }
         }
-
     }
 }
 

@@ -17,7 +17,21 @@
 package com.google.samples.apps.sunflower
 
 import android.app.Application
+import com.onesignal.OneSignal
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class MainApplication : Application()
+class MainApplication : Application(){
+    val ONESIGNAL_APP_ID = "4667b9af-b14d-45f8-92af-0d1652aa1b5a"
+    override fun onCreate() {
+        super.onCreate()
+
+        // Logging set to help debug issues, remove before releasing your app.
+        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE)
+
+        // OneSignal Initialization
+        OneSignal.initWithContext(this)
+        OneSignal.setAppId(ONESIGNAL_APP_ID)
+    }
+}
+

@@ -32,16 +32,16 @@ import com.google.samples.apps.sunflower.ui.viewmodels.GardenHarvestViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HarvestFragment : Fragment(){
+class HarvestFragment : Fragment() {
 
     private lateinit var binding: FragmentHarvestBinding
 
     private val viewModel: GardenHarvestViewModel by viewModels()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         binding = FragmentHarvestBinding.inflate(inflater, container, false)
         val adapter = HarvestAdapter()
@@ -52,14 +52,7 @@ class HarvestFragment : Fragment(){
         subscribeUi(adapter, binding)
         return binding.root
     }
-    fun getCountPlant(plantID: String):String{
-         val data = viewModel.getHarvestByPlant(plantID)
-        var count=0
-        data.forEach {
-            count += it.harvest_amount
-        }
-        return count.toString()
-    }
+
     private fun subscribeUi(adapter: HarvestAdapter, binding: FragmentHarvestBinding) {
         viewModel.getOneListHarvest.observe(viewLifecycleOwner) { result ->
             binding.hasPlantings = !result.isNullOrEmpty()
@@ -67,9 +60,9 @@ class HarvestFragment : Fragment(){
         }
     }
 
-     //TODO: convert to data binding if applicable
+    //TODO: convert to data binding if applicable
     private fun navigateToPlantListPage() {
         requireActivity().findViewById<ViewPager2>(R.id.view_pager).currentItem =
-                MY_GARDEN_PAGE_INDEX
+            MY_GARDEN_PAGE_INDEX
     }
 }

@@ -24,6 +24,7 @@ import com.example.core.database.AppDatabase
 import com.example.core.database.dao.PlantDao
 import com.example.core.database.entity.Plant
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.first
 import org.hamcrest.Matchers.equalTo
 import org.junit.After
 import org.junit.Assert.assertThat
